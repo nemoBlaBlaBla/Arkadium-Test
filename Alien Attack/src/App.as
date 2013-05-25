@@ -3,6 +3,7 @@ package
 	import com.controllers.PlayerController;
 	import com.fx.particlesystem.ParticleSystem;
 	import com.fx.particlesystem.TestParticle;
+	import com.objects.spaceobjects.AAPlayerShip;
 	import com.objects.spaceobjects.AASpaceObject;
 	import com.objects.spaceobjects.AASpaceShip;
 	import com.universe.TestUniverse;
@@ -32,9 +33,8 @@ package
 		{
 			//var u:Universe = new Universe();
 			var u:Universe = new TestUniverse();
-			var so:AASpaceShip = new AASpaceShip(u);
-			so.mass = 1000;
-			so.controller = new PlayerController(so);
+			var so:AASpaceShip = new AAPlayerShip(u);
+			
 			u.addChild(so);
 			
 			var game:Game = new Game(u);

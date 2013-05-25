@@ -3,6 +3,7 @@ package com.objects.spaceobjects
 	import com.controllers.Controller;
 	import com.objects.shipmodules.AAEngine;
 	import com.universe.Universe;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
@@ -19,9 +20,6 @@ package com.objects.spaceobjects
 		private const POINT_LEFT : Point = new Point(-1, 0);
 		private const POINT_RIGHT : Point = new Point(1, 0);
 		
-		[Embed(source="/lib/SpaceShip_v2.svg")]
-		public var ShipView:Class;
-		
 		private var _thrustForceVector : Point = new Point(0, 0);
 		private var _rotationForceFactor : Number = 0;
 		
@@ -29,27 +27,11 @@ package com.objects.spaceobjects
 		//private var _canon:
 		private var _controller:Controller;
 		
-		protected var _shipTimer:GlobalTimer = GlobalTimer.GetInstance();
-		//protected var _view:Sprite;
+		private var _shipTimer:GlobalTimer = GlobalTimer.GetInstance();
 		
 		public function AASpaceShip(universe:Universe) 
 		{
 			super(universe);
-			
-			this.resistanceFactor = 50;
-			this.angularResistanceFactor = 70;
-			_engine = new AAEngine(this, 300, 300);
-			
-			
-			
-			var view:Sprite = new ShipView();
-			view.scaleX = 0.25;
-			view.scaleY = 0.25;
-			this.addChild(_engine);
-			view.x = -view.width / 2;
-			view.y = -view.height / 2;
-			this.addChild(view);
-			
 			_shipTimer.addEventListener(TimerEvent.TIMER, onTimerTick);
 		}
 		
@@ -213,6 +195,16 @@ package com.objects.spaceobjects
 				value = -1
 			}
 			_rotationForceFactor = value;
+		}
+		
+		public function get engine():AAEngine 
+		{
+			return _engine;
+		}
+		
+		public function set engine(value:AAEngine):void 
+		{
+			_engine = value;
 		}
 //}
 	}

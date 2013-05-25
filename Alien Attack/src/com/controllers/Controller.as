@@ -3,6 +3,11 @@ package com.controllers
 	import com.objects.spaceobjects.AASpaceShip;
 	import flash.display.Sprite;
 	
+	import flash.events.TimerEvent;
+	import flash.events.Event;
+	import flash.utils.Timer;
+	import utilities.GlobalTimer;
+	
 	/**
 	 * ...
 	 * @author Eugene
@@ -15,6 +20,19 @@ package com.controllers
 		public function Controller(ship:AASpaceShip)
 		{
 			_ship = ship;
+			
+			var controllerTimer:GlobalTimer = GlobalTimer.GetInstance();
+			controllerTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+		}
+		
+		private function OnTimerTick(e:Event):void 
+		{
+			Update();
+		}
+		
+		protected function Update() : void
+		{
+			
 		}
 	}
 

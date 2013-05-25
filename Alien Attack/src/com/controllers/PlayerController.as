@@ -1,13 +1,10 @@
 package com.controllers
 {
 	import com.objects.spaceobjects.AASpaceShip;
-	import flash.events.Event;
 	import flash.events.KeyboardEvent;
-	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
-	import flash.utils.Timer;
-	import utilities.GlobalTimer;
+	import flash.events.Event;
 	
 	/**
 	 * ...
@@ -28,41 +25,32 @@ package com.controllers
 			removeEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			
-			var controllerTimer:GlobalTimer = GlobalTimer.GetInstance();
-			controllerTimer.addEventListener(TimerEvent.TIMER, onTimerTick);
 		}
 		
-		private function onTimerTick(e:TimerEvent):void 
+		
+		override protected function Update() : void
 		{
-			//trace(_ship.mouseX);
-			
 			var num:Number = Math.atan2(_ship.mouseY, _ship.mouseX);
 			num = num + (90 * (Math.PI / 180));
-			//trace(Math.sin(num));
-			//trace(_ship.mouseY);
+
 			num = Math.sin(num);
-			//if (_ship.mouseY < 0) 
-			//{
-				if (num < -0.2)
-				{
-					_ship.TurnLeft(true);
-				}
-				else if (num > 0.05)
-				{
-					_ship.TurnRight(true);
-				}
-				else if ((num < 0.05) && (num > -0.2))
-				{
-					_ship.StopTurn();
-				}
-			//}
-			//else
-			//{
-				//_ship.StopTurn();
-			//}
+
+			if (num < -0.2)
+			{
+				_ship.TurnLeft(true);
+			}
+			else if (num > 0.05)
+			{
+				_ship.TurnRight(true);
+			}
+			else if ((num < 0.05) && (num > -0.2))
+			{
+				_ship.StopTurn();
+			}
 		}
 		
+		
+//{ KEYBOARD HANDLERS
 		private function onKeyUp(e:KeyboardEvent):void
 		{
 			switch (e.keyCode) 
@@ -128,7 +116,6 @@ package com.controllers
 				_ship.Stop();
 			}
 		}
-	
+//}
 	}
-
 }
