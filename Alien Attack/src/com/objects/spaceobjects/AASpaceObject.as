@@ -3,6 +3,7 @@ package com.objects.spaceobjects
 	import com.universe.Universe;
 	import flash.display.Sprite;
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.utils.Timer;
 	import mx.controls.Label;
@@ -15,254 +16,177 @@ package com.objects.spaceobjects
 	public class AASpaceObject extends Sprite
 	{
 		//*******************************************
-		protected var _mass:Number = 0;
+		private var _universe:Universe;
 		
-		protected var _verticalAcceleration:Number = 0;
-		protected var _horizontalAcceleration:Number = 0;
-		protected var _xAcceleration:Number = 0;
-		protected var _yAcceleration:Number = 0;
+		private var _mass:Number = 0;
 		
-		protected var _verticalThrustForce:Number = 0;
-		protected var _horizontalThrustForce:Number = 0;
-		protected var _xThrustForce:Number = 0;
-		protected var _yThrustForce:Number = 0;
+		private var _force : Point = new Point(0, 0);
+		private var _acceleration : Point = new Point(0, 0);
+		private var _velocity : Point = new Point(0, 0);
+		private var _resistanceFactor : Number = 0;
+		private var _resistanceForce : Point= new Point(0, 0);
 		
-		protected var _verticalResistanceCoef:Number = 10;
-		protected var _horizontalResistanceCoef:Number = 10;
-		protected var _xResistanceCoef:Number = 0;
-		protected var _yResistanceCoef:Number = 0;
-		
-		protected var _verticalResistanceForce:Number = 0;
-		protected var _horizontalResistanceForce:Number = 0;
-		protected var _xResistanceForce:Number = 0;
-		protected var _yResistanceForce:Number = 0;
-		
-		protected var _verticalVelocity:Number = 0;
-		protected var _horizontalVelocity:Number = 0;
-		protected var _xVelocity:Number = 0;
-		protected var _yVelocity:Number = 0;
-		
-		protected var _rotationForce:Number = 0;
-		protected var _rotationResistanceCoef:Number = 70;
-		protected var _rotationResistanceForce:Number = 0;
-		protected var _rotationAcceleration:Number = 0;
-		protected var _rotationSpeed:Number = 0;
+		private var _angularForce : Number = 0;
+		private var _angularAcceleration : Number = 0;
+		private var _angularVelocity : Number = 0;
+		private var _angularResistanceFactor : Number = 0;
+		private var _angularResistanceForce : Number = 0;
 		//*********************************************
 		
-		protected var _universe:Universe;
-		
-		private var _myTF:TextField = new TextField();
 		
 		public function AASpaceObject(universe:Universe)
 		{
 			_universe = universe;
 			
-			var positionUpdateTimer:GlobalTimer = GlobalTimer.GetInstance();
-			positionUpdateTimer.start();
-			positionUpdateTimer.addEventListener(TimerEvent.TIMER, PositionUpdate);
-			_myTF.textColor = 0xffffff;
-			this.addChild(_myTF);
+			var updateTimer:GlobalTimer = GlobalTimer.GetInstance();
+			updateTimer.start();
+			updateTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
 		}
 		
-		private function CalculateValues():void
+		
+		private function UpdateValues():void
 		{
-			_xThrustForce = _horizontalThrustForce * Math.cos((this.rotation * Math.PI) / 180) + _verticalThrustForce * Math.sin((this.rotation * Math.PI) / 180);
-			_yThrustForce = _horizontalThrustForce * Math.sin((this.rotation * Math.PI) / 180) - _verticalThrustForce * Math.cos((this.rotation * Math.PI) / 180);
+			this.resistanceForce = new Point(this.velocity.x * this.resistanceFactor, this.velocity.y * this.resistanceFactor);
+			this.acceleration =  new Point(this.force.subtract(this.resistanceForce).x / this.mass, this.force.subtract(this.resistanceForce).y / this.mass); 
+			this.velocity = this.velocity.add(this.acceleration);
 			
-			//calculating resistance fore using resistance coeficient and current value of velocity
-			_verticalResistanceForce = _verticalResistanceCoef * _verticalVelocity; // * (Math.abs(_verticalVelocity));
-			_horizontalResistanceForce = _horizontalResistanceCoef * _horizontalVelocity; // * (Math.abs(_horizontalVelocity));
-			
-			var coef:Number = Math.sqrt(Math.pow(_horizontalResistanceCoef, 2) + Math.pow(_verticalResistanceCoef, 2));
-			
-			
-			//_xResistanceCoef = Math.abs(coef * Math.pow(Math.cos((this.rotation * Math.PI) / 180),2) + coef * Math.pow(Math.sin((this.rotation * Math.PI) / 180),2));
-			//_yResistanceCoef = Math.abs(coef * Math.pow(Math.sin((this.rotation * Math.PI) / 180),2) + coef * Math.pow(Math.cos((this.rotation * Math.PI) / 180),2));
-			
-			
-			
-			_xResistanceCoef = Math.abs(_horizontalResistanceCoef * Math.pow(Math.cos((this.rotation * Math.PI) / 180),2) + _verticalResistanceCoef * Math.pow(Math.sin((this.rotation * Math.PI) / 180),2));
-			_yResistanceCoef = Math.abs(_horizontalResistanceCoef * Math.pow(Math.sin((this.rotation * Math.PI) / 180),2) + _verticalResistanceCoef * Math.pow(Math.cos((this.rotation * Math.PI) / 180),2));
-			
-			
-			//_xResistanceForce = _horizontalResistanceForce * Math.cos((this.rotation / 180) * Math.PI) + _verticalResistanceForce * Math.sin((this.rotation / 180) * Math.PI);
-			//_yResistanceForce = _horizontalResistanceForce * Math.sin((this.rotation / 180) * Math.PI) - _verticalResistanceForce * Math.cos((this.rotation / 180) * Math.PI);
-			
-			
-			_xResistanceForce = _xResistanceCoef * _xVelocity;
-			_yResistanceForce = _yResistanceCoef * _yVelocity;
-			
-			
-			_xAcceleration = (_xThrustForce - _xResistanceForce) / _mass;
-			_yAcceleration = (_yThrustForce - _yResistanceForce) / _mass;
-			
-			_horizontalAcceleration = _xAcceleration * Math.cos((this.rotation / 180) * Math.PI) + _yAcceleration * Math.sin((this.rotation / 180) * Math.PI);
-			_verticalAcceleration = _xAcceleration * Math.sin((this.rotation / 180) * Math.PI) - _yAcceleration * Math.cos((this.rotation / 180) * Math.PI);
-			
-			
-			_xVelocity += _xAcceleration;
-			_yVelocity += _yAcceleration;
-			
-			
-			_horizontalVelocity = _xVelocity * Math.cos((this.rotation / 180) * Math.PI) + _yVelocity * Math.sin((this.rotation / 180) * Math.PI);
-			_verticalVelocity = _xVelocity * Math.sin((this.rotation / 180) * Math.PI) - _yVelocity * Math.cos((this.rotation / 180) * Math.PI);
-			
-			
-			_rotationResistanceForce = _rotationResistanceCoef * Math.abs(_rotationSpeed) * _rotationSpeed;
-			_rotationAcceleration = (_rotationForce - _rotationResistanceForce) / _mass;
-			_rotationSpeed += _rotationAcceleration;
-			
-			App.hud._tf.text = "Vertical velocity: " + _verticalVelocity.toFixed(4).toString() + "\n"
-			+ "Horizontal velocity: " + _horizontalVelocity.toFixed(4).toString() + "\n"
-			+ "X velocity: " + _xVelocity.toFixed(4).toString() + "\n"
-			+ "Y velocity: " + _yVelocity.toFixed(4).toString() + "\n"
-			+ "****************************************************" + "\n"
-			+ "Vertical Thrust: " + _verticalThrustForce.toFixed(4).toString() + "\n"
-			+ "Horizontal Thrust: " + _horizontalThrustForce.toFixed(4).toString() + "\n"
-			+ "X Thrust: " + _xThrustForce.toFixed(4).toString() + "\n"
-			+ "Y Thrust: " + _yThrustForce.toFixed(4).toString() + "\n"
-			+ "****************************************************" + "\n"
-			+ "Vertical Resistance Coef: " + _verticalResistanceCoef.toFixed(4).toString() + "\n"
-			+ "Horizontal Resistance Coef: " + _horizontalResistanceCoef.toFixed(4).toString() + "\n"
-			+ "X Resistance Coef: " + _xResistanceCoef.toFixed(4).toString() + "\n"
-			+ "Y Resistance Coef: " + _yResistanceCoef.toFixed(4).toString() + "\n"
-			+ "****************************************************" + "\n"
-			+ "Vertical Resistance Force: " + _verticalResistanceForce.toFixed(4).toString() + "\n"
-			+ "Horizontal Resistance Force: " + _horizontalResistanceForce.toFixed(4).toString() + "\n"
-			+ "X Resistance Force: " + _xResistanceForce.toFixed(4).toString() + "\n"
-			+ "Y Resistance Force: " + _yResistanceForce.toFixed(4).toString() + "\n"
-			+ "****************************************************" + "\n"
-			+ "Vertical Acceleration: " + _verticalAcceleration.toFixed(4).toString() + "\n"
-			+ "Horizontal Acceleration: " + _horizontalAcceleration.toFixed(4).toString() + "\n"
-			+ "X Resistance Acceleration: " + _xAcceleration.toFixed(4).toString() + "\n"
-			+ "Y Resistance Acceleration: " + _yAcceleration.toFixed(4).toString() + "\n"
-			+ "****************************************************" + "\n"
-			+ "Rotation Acceleration: " + _rotationAcceleration.toFixed(4).toString() + "\n"
-			+ "Rotation Resistance Coef: " + _rotationResistanceCoef.toFixed(4).toString() + "\n"
-			+ "Rotation Resistance Force: " + _rotationResistanceForce.toFixed(4).toString() + "\n"
-			+ "Rotation Speed: " + _rotationSpeed.toFixed(4).toString() + "\n"
-			+ "coef: " + coef;
+			this._angularResistanceForce = angularVelocity * this._angularResistanceFactor;
+			this.angularAcceleration = (this.angularForce - this.angularResistanceForce) / mass;
+			this.angularVelocity += this.angularAcceleration;
 		}
 		
-		private function PositionUpdate(evt:TimerEvent):void
+		
+		private function PositionUpdate() : void
 		{
-			CalculateValues();
-			this.y += _yVelocity;
-			this.x += _xVelocity;
+			UpdateValues();
+			this.x += this.velocity.x;
+			this.y += this.velocity.y;
+			this.rotation += angularVelocity;
 			
-			this.rotation += _rotationSpeed;
-			Test();
+			trace("Force X - " + this.force.x + "\n");
+			//trace("Velocity X - " + this.velocity.x + "\n");
+			//trace("Position X - " + this.x);
 		}
 		
-		private function Test():void
+		
+		private function OnTimerTick(evt : TimerEvent) : void
 		{
-			//_myTF.text = ("_yVelocity : " + _yVelocity.toFixed(4) + "\n" + "_xVelocity : " + _xVelocity.toFixed(4) + "\n");
+			this.PositionUpdate();
+			
+			// maybe, there will be delegate metod "Update(spaceObject : SpaceObject)" call
 		}
 		
-		// GETTERS AND SETTERS
-		public function get mass():Number
+//{ PROPERTIES GETTERS AND SETTERS		
+		
+		public function get mass():Number 
 		{
 			return _mass;
 		}
 		
-		public function set mass(value:Number):void
+		public function set mass(value:Number):void 
 		{
 			_mass = value;
 		}
 		
-		public function get verticalAcceleration():Number
+		public function get acceleration():Point 
 		{
-			return _verticalAcceleration;
+			return _acceleration;
 		}
 		
-		public function get horizontalAcceleration():Number
+		public function set acceleration(value:Point):void 
 		{
-			return _horizontalAcceleration;
+			_acceleration = value;
 		}
 		
-		public function get xAcceleration():Number
+		public function get velocity():Point 
 		{
-			return _xAcceleration;
+			return _velocity;
 		}
 		
-		public function get yAcceleration():Number
+		public function set velocity(value:Point):void 
 		{
-			return _yAcceleration;
+			_velocity = value;
 		}
 		
-		public function get verticalThrustForce():Number
+		public function get resistanceFactor():Number
 		{
-			return _verticalThrustForce;
+			return _resistanceFactor;
 		}
 		
-		public function set verticalThrustForce(value:Number):void
+		public function set resistanceFactor(value:Number):void 
 		{
-			_verticalThrustForce = value;
+			_resistanceFactor = value;
 		}
 		
-		public function get horizontalThrustForce():Number
+		public function get angularForce():Number 
 		{
-			return _horizontalThrustForce;
+			return _angularForce;
 		}
 		
-		public function set horizontalThrustForce(value:Number):void
+		public function set angularForce(value:Number):void 
 		{
-			_horizontalThrustForce = value;
+			_angularForce = value;
 		}
 		
-		public function get verticalResistanceForce():Number
+		public function get angularAcceleration():Number 
 		{
-			return _verticalResistanceForce;
+			return _angularAcceleration;
 		}
 		
-		public function get horizontalResistanceForce():Number
+		public function set angularAcceleration(value:Number):void 
 		{
-			return _horizontalResistanceForce;
+			_angularAcceleration = value;
 		}
 		
-		public function get verticalVelocity():Number
+		public function get angularVelocity():Number 
 		{
-			return _verticalVelocity;
+			return _angularVelocity;
 		}
 		
-		public function get horizontalVelocity():Number
+		public function set angularVelocity(value:Number):void 
 		{
-			return _horizontalVelocity;
+			_angularVelocity = value;
 		}
 		
-		public function get xVelocity():Number
+		public function get angularResistanceFactor():Number 
 		{
-			return _xVelocity;
+			return _angularResistanceFactor;
 		}
 		
-		public function get yVelocity():Number
+		public function set angularResistanceFactor(value:Number):void 
 		{
-			return _yVelocity;
+			_angularResistanceFactor = value;
 		}
 		
-		public function get rotationForce():Number
+		public function get resistanceForce():Point 
 		{
-			return _rotationForce;
+			return _resistanceForce;
 		}
 		
-		public function set rotationForce(value:Number):void
+		public function set resistanceForce(value:Point):void 
 		{
-			_rotationForce = value;
+			_resistanceForce = value;
 		}
 		
-		public function get rotationAcceleration():Number
+		public function get angularResistanceForce():Number 
 		{
-			return _rotationAcceleration;
+			return _angularResistanceForce;
 		}
 		
-		public function get rotationSpeed():Number
+		public function set angularResistanceForce(value:Number):void 
 		{
-			return _rotationSpeed;
+			_angularResistanceForce = value;
 		}
 		
-		public function get universe():Universe 
+		public function get force():Point 
 		{
-			return _universe;
+			return _force;
 		}
+		
+		public function set force(value:Point):void 
+		{
+			_force = value;
+		}
+//}
 	}
 }

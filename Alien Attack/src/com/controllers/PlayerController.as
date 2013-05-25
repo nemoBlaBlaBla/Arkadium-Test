@@ -42,92 +42,90 @@ package com.controllers
 			//trace(Math.sin(num));
 			//trace(_ship.mouseY);
 			num = Math.sin(num);
-			if (_ship.mouseY < 0) 
-			{
+			//if (_ship.mouseY < 0) 
+			//{
 				if (num < -0.2)
 				{
-					LeftTurn();
+					_ship.TurnLeft(true);
 				}
-				else if (num > 0.2)
+				else if (num > 0.05)
 				{
-					RightTurn();
+					_ship.TurnRight(true);
 				}
-				else if ((num < 0.2) && (num > -0.2))
+				else if ((num < 0.05) && (num > -0.2))
 				{
-					StopTurn();
+					_ship.StopTurn();
 				}
-			}
-			else
-			{
-				StopTurn();
-			}
+			//}
+			//else
+			//{
+				//_ship.StopTurn();
+			//}
 		}
 		
 		private function onKeyUp(e:KeyboardEvent):void
 		{
-			if (e.keyCode == Keyboard.W)
+			switch (e.keyCode) 
 			{
-				_ship._engine.StopEngine();
-				trace("KeyUp W");
-			}
-			if (e.keyCode == Keyboard.S)
-			{
-				_ship._engine.StopEngine();
-				trace("KeyUp S");
-			}
-			if (e.keyCode == Keyboard.A)
-			{
-				_ship._engine.StopEngine();
-				trace("KeyUp A");
-			}
-			if (e.keyCode == Keyboard.D)
-			{
-				_ship._engine.StopEngine();
-				trace("KeyUp D");
-			}
-			if (e.keyCode == Keyboard.Q)
-			{
-				_ship._engine.StopTurn();
-				trace("KeyUp Q");
-			}
-			if (e.keyCode == Keyboard.E)
-			{
-				_ship._engine.StopTurn();
-				trace("KeyUp E");
+				case Keyboard.W: 
+				_ship.MoveForward(false);	
+				break;
+				
+				case Keyboard.S: 
+				_ship.MoveBackward(false);	
+				break;
+				
+				case Keyboard.A: 
+				_ship.MoveLeft(false);	
+				break;
+				
+				case Keyboard.D: 
+				_ship.MoveRight(false);	
+				break;
+				
+				case Keyboard.Q: 
+				_ship.TurnLeft(false);	
+				break;
+				
+				case Keyboard.E: 
+				_ship.TurnRight(false);	
+				break;
+				
+				default:
+				_ship.Stop();
 			}
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void
 		{
-			if (e.keyCode == Keyboard.W)
+			switch (e.keyCode) 
 			{
-				this.MoveForward();
-				trace("KeyDown W");
-			}
-			if (e.keyCode == Keyboard.S)
-			{
-				this.MoveBackward();
-				trace("KeyDown S");
-			}
-			if (e.keyCode == Keyboard.A)
-			{
-				this.MoveLeft();
-				trace("KeyDown A");
-			}
-			if (e.keyCode == Keyboard.D)
-			{
-				this.MoveRight();
-				trace("KeyDown D");
-			}
-			if (e.keyCode == Keyboard.Q)
-			{
-				this.LeftTurn();
-				trace("KeyDown Q");
-			}
-			if (e.keyCode == Keyboard.E)
-			{
-				this.RightTurn();
-				trace("KeyDown E");
+				case Keyboard.W: 
+				_ship.MoveForward(true);	
+				break;
+				
+				case Keyboard.S: 
+				_ship.MoveBackward(true);	
+				break;
+				
+				case Keyboard.A: 
+				_ship.MoveLeft(true);	
+				break;
+				
+				case Keyboard.D: 
+				_ship.MoveRight(true);	
+				break;
+				
+				case Keyboard.Q: 
+				_ship.TurnLeft(true);	
+				break;
+				
+				case Keyboard.E: 
+				_ship.TurnRight(true);	
+				break;
+				
+				default:
+				_ship.Stop();
 			}
 		}
 	

@@ -16,41 +16,6 @@ package com.controllers
 		{
 			_ship = ship;
 		}
-		
-		protected function MoveForward():void
-		{
-			_ship._engine.MaximumThrust();
-		}
-		
-		protected function MoveBackward():void
-		{
-			_ship._engine.MinimalThrust();
-		}
-		
-		protected function MoveLeft():void
-		{
-			_ship._engine.LeftStrafe();
-		}
-		
-		protected function MoveRight():void
-		{
-			_ship._engine.RightStrafe();
-		}
-		
-		protected function LeftTurn():void 
-		{
-			_ship._engine.TurnLeft();
-		}
-		
-		protected function RightTurn():void
-		{
-			_ship._engine.TurnRight();
-		}
-		
-		protected function StopTurn():void
-		{
-			_ship._engine.StopTurn();
-		}
 	}
 
 }

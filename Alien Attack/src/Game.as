@@ -38,16 +38,16 @@ package
 		{
 			this.x = stage.stageWidth / 2;
 			this.y = 4 * stage.stageHeight / 5;			
-			try 
-			{
-				_universe.x = - _focusObject.x;
-				_universe.y = - _focusObject.y;
-				this.rotation = - _focusObject.rotation;
-			}
-			catch (err:Error)
-			{
-				trace(err.getStackTrace().toString());
-			}
+			//try 
+			//{
+				//_universe.x = - _focusObject.x;
+				//_universe.y = - _focusObject.y;
+				//this.rotation = - _focusObject.rotation;
+			//}
+			//catch (err:Error)
+			//{
+				//trace(err.getStackTrace().toString());
+			//}
 		}
 		
 		public function get focusObject():AASpaceObject 
