@@ -1,5 +1,7 @@
 package  
 {
+	import com.objects.shipmodules.AACannon;
+	import com.objects.spaceobjects.AACannonShell;
 	import com.objects.spaceobjects.AASpaceObject;
 	import com.universe.Universe;
 	import flash.display.Sprite;
@@ -31,13 +33,13 @@ package
 			
 			var timer:GlobalTimer = GlobalTimer.GetInstance();
 			timer.start();
-			timer.addEventListener(TimerEvent.TIMER, onTimerTick);
+			//timer.addEventListener(TimerEvent.TIMER, onTimerTick);
 		}
 		
-		private function onTimerTick(e:TimerEvent):void 
-		{
-			this.x = stage.stageWidth / 2;
-			this.y = 4 * stage.stageHeight / 5;			
+		//private function onTimerTick(e:TimerEvent):void 
+		//{
+			//this.x = stage.stageWidth / 2;
+			//this.y = 4 * stage.stageHeight / 5;			
 			//try 
 			//{
 				//_universe.x = - _focusObject.x;
@@ -48,7 +50,7 @@ package
 			//{
 				//trace(err.getStackTrace().toString());
 			//}
-		}
+		//}
 		
 		public function get focusObject():AASpaceObject 
 		{

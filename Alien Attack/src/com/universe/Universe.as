@@ -1,5 +1,6 @@
 package com.universe
 {
+	import com.objects.spaceobjects.AACannonShell;
 	import com.objects.spaceobjects.AASpaceObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -19,7 +20,7 @@ package com.universe
 		
 		public function Universe()
 		{	
-			this.addEventListener(Event.ADDED_TO_STAGE, onAdding);
+			//this.addEventListener(Event.ADDED_TO_STAGE, onAdding);
 		}
 		
 		public function SetCameraTo(object:AASpaceObject):void
@@ -27,11 +28,11 @@ package com.universe
 			_focusObject = object;
 		}
 		
-		private function onAdding(e:Event):void
-		{
-			trace(parent.name);
-			trace(stage.stageHeight);
-		}
+		//private function onAdding(e:Event):void
+		//{
+			//trace(parent.name);
+			//trace(stage.stageHeight);
+		//}
 	
 	}
 }

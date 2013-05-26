@@ -13,7 +13,7 @@ package utilities
 		
 		private static var _instance:GlobalTimer;
 		
-		public function GlobalTimer(privateClass:PrivateClass, delay:Number = 30, repeatCount:int=0) 
+		public function GlobalTimer(privateClass:PrivateClass, delay:Number = 33, repeatCount:int=0) 
 		{
 			super(delay, repeatCount);
 			this.start();
@@ -23,7 +23,7 @@ package utilities
 		{
 			if (!_instance)
 			{
-				_instance = new GlobalTimer(new PrivateClass(), 30, 0);
+				_instance = new GlobalTimer(new PrivateClass(), 33, 0);
 			}
 			return _instance;
 		}

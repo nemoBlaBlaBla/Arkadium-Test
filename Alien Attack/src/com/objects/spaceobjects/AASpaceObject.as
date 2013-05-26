@@ -1,13 +1,16 @@
 package com.objects.spaceobjects
 {
 	import com.universe.Universe;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.utils.Timer;
 	import mx.controls.Label;
 	import utilities.GlobalTimer;
+	import com.objects.spaceobjects.AAISpaceObjectDelegate;
 	
 	/**
 	 * ...
@@ -31,16 +34,67 @@ package com.objects.spaceobjects
 		private var _angularVelocity : Number = 0;
 		private var _angularResistanceFactor : Number = 0;
 		private var _angularResistanceForce : Number = 0;
+		
+		private var _view : Bitmap = new Bitmap();
+		
+		private var _delegate:AAISpaceObjectDelegate;
 		//*********************************************
 		
 		
 		public function AASpaceObject(universe:Universe)
 		{
 			_universe = universe;
+			//var updateTimer:GlobalTimer = GlobalTimer.GetInstance();
+			//updateTimer.start();
+			//updateTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			//this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+		}
+		
+		//private function OnAddingToStage(e:Event):void 
+		//{
+			//removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			//this.DrawBounds();
+		//}
+		
+		public function Destroy() : void
+		{
+			if (delegate)
+			{
+				delegate.OnDestroy(this);
+			}
 			
-			var updateTimer:GlobalTimer = GlobalTimer.GetInstance();
-			updateTimer.start();
-			updateTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			if (parent)
+			{
+				parent.removeChild(this);
+			}
+			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+		}
+		
+		private function OnEnterFrame(e:Event):void 
+		{
+			if (delegate)
+			{
+				delegate.Update(this);
+			}
+			
+			this.PositionUpdate();
+			
+			for (var i:int = 0; i < universe.numChildren; i++) 
+			{
+				if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
+				{
+					if (delegate)
+					{
+						delegate.OnHit(this, universe.getChildAt(i) as AASpaceObject);
+					}
+					
+					//if (universe.getChildAt(i) is AAAlienShip)
+					//{
+						//trace("HIT whith " + universe.getChildAt(i).name + "type: " + typeof(universe.getChildAt(i)));
+					//}
+				}
+			}
 		}
 		
 		
@@ -58,22 +112,19 @@ package com.objects.spaceobjects
 		
 		private function PositionUpdate() : void
 		{
-			UpdateValues();
+			if (this.mass != 0)
+			{
+				UpdateValues();
+				this.rotation += angularVelocity;
+			}
 			this.x += this.velocity.x;
 			this.y += this.velocity.y;
-			this.rotation += angularVelocity;
-			
-			trace("Force X - " + this.force.x + "\n");
-			//trace("Velocity X - " + this.velocity.x + "\n");
-			//trace("Position X - " + this.x);
 		}
 		
-		
-		private function OnTimerTick(evt : TimerEvent) : void
+		public function DrawBounds() : void
 		{
-			this.PositionUpdate();
-			
-			// maybe, there will be delegate metod "Update(spaceObject : SpaceObject)" call
+			this.graphics.lineStyle(2, 0x00FF00, 1);
+			this.graphics.drawRect(view.x, view.y, view.width, view.height);
 		}
 		
 //{ PROPERTIES GETTERS AND SETTERS		
@@ -186,6 +237,31 @@ package com.objects.spaceobjects
 		public function set force(value:Point):void 
 		{
 			_force = value;
+		}
+		
+		public function get view():Bitmap 
+		{
+			return _view;
+		}
+		
+		public function set view(value:Bitmap):void 
+		{
+			_view = value;
+		}
+		
+		public function get universe():Universe 
+		{
+			return _universe;
+		}
+		
+		public function get delegate():AAISpaceObjectDelegate 
+		{
+			return _delegate;
+		}
+		
+		public function set delegate(value:AAISpaceObjectDelegate):void 
+		{
+			_delegate = value;
 		}
 //}
 	}

@@ -1,5 +1,6 @@
 package com.objects.spaceobjects 
 {
+	import com.objects.shipmodules.AACannon;
 	import flash.display.Sprite
 	import com.controllers.PlayerController;
 	import com.universe.Universe;
@@ -12,24 +13,28 @@ package com.objects.spaceobjects
 	public class AAPlayerShip extends AASpaceShip 
 	{
 		
-		[Embed(source = "/lib/SpaceShip_v2small.svg")]
+		[Embed(source = "/lib/SpaceShip_v2.png")]
 		private var ShipView:Class;
 		
 		public function AAPlayerShip(universe:Universe) 
 		{
-			super(universe);
+			this.view = new ShipView();
+			
+			this.view.x = -view.width / 2;
+			this.view.y = -view.height / 2;
+			this.addChild(this.view);
 			
 			this.mass = 1000;
 			this.resistanceFactor = 50;
-			this.angularResistanceFactor = 70;
-			this.engine = new AAEngine(this, 500, 300);
-			this.controller = new PlayerController(this);
-			
-			var view:Sprite = new ShipView();
+			this.angularResistanceFactor = 300;
+			this.engine = new AAEngine(this, 500, 700);
 			this.addChild(this.engine);
-			view.x = -view.width / 2;
-			view.y = -view.height / 2;
-			this.addChild(view);
+			
+			this.cannon = new AACannon(this);
+			
+			this.delegate = new PlayerController(this);
+			
+			super(universe);
 		}
 		
 	}

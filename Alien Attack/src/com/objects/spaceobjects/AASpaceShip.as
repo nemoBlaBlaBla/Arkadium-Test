@@ -1,6 +1,7 @@
 package com.objects.spaceobjects 
 {
 	import com.controllers.Controller;
+	import com.objects.shipmodules.AACannon;
 	import com.objects.shipmodules.AAEngine;
 	import com.universe.Universe;
 	import flash.display.Bitmap;
@@ -24,17 +25,21 @@ package com.objects.spaceobjects
 		private var _rotationForceFactor : Number = 0;
 		
 		private var _engine:AAEngine;
-		//private var _canon:
-		private var _controller:Controller;
+		private var _cannon:AACannon;
+		//private var _controller:Controller;
 		
-		private var _shipTimer:GlobalTimer = GlobalTimer.GetInstance();
+		private var _health:Number = 100;
 		
 		public function AASpaceShip(universe:Universe) 
 		{
 			super(universe);
-			_shipTimer.addEventListener(TimerEvent.TIMER, onTimerTick);
 		}
 		
+		
+		public function Fire(start:Boolean) : void
+		{
+			this.cannon.Fire(start);
+		}
 		
 //{ MOVEMENT METHODS
 		public function MoveForward(isTrue : Boolean) : void
@@ -136,20 +141,15 @@ package com.objects.spaceobjects
 		
 
 //{ PROPERTIES GETTERS AND SETTERS
-		private function onTimerTick(e:TimerEvent):void 
-		{	
-			
-		}
-		
-		public function get controller():Controller 
-		{
-			return _controller;
-		}
-		
-		public function set controller(value:Controller):void 
-		{
-			_controller = value;
-		}
+		//public function get controller():Controller 
+		//{
+			//return _controller;
+		//}
+		//
+		//public function set controller(value:Controller):void 
+		//{
+			//_controller = value;
+		//}
 		
 		public function get thrustForceVector():Point 
 		{
@@ -205,6 +205,26 @@ package com.objects.spaceobjects
 		public function set engine(value:AAEngine):void 
 		{
 			_engine = value;
+		}
+		
+		public function get cannon():AACannon 
+		{
+			return _cannon;
+		}
+		
+		public function set cannon(value:AACannon):void 
+		{
+			_cannon = value;
+		}
+		
+		public function get health():Number 
+		{
+			return _health;
+		}
+		
+		public function set health(value:Number):void 
+		{
+			_health = value;
 		}
 //}
 	}

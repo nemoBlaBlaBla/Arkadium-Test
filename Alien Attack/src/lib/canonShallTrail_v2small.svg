@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="37"
-   height="208"
+   width="1"
+   height="39"
    id="svg5636"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -30,7 +30,7 @@
       <stop
          id="stop6164"
          offset="0.5"
-         style="stop-color:#ff7f00;stop-opacity:0.79464287;" />
+         style="stop-color:#ff7f00;stop-opacity:0.5535714;" />
       <stop
          style="stop-color:#ffd600;stop-opacity:0;"
          offset="1"
@@ -55,9 +55,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="-90.72238"
-     inkscape:cy="154.65414"
+     inkscape:zoom="1.4"
+     inkscape:cx="-55.293813"
+     inkscape:cy="63.654107"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -81,8 +81,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       originx="-38.53553px"
-       originy="-21.345156px" />
+       originx="-40.535534px"
+       originy="-112.34519px" />
   </sodipodi:namedview>
   <metadata
      id="metadata5641">
@@ -92,7 +92,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -100,7 +100,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-38.53553,-823.01702)">
+     transform="translate(-40.535534,-901.017)">
     <path
        sodipodi:type="arc"
        style="fill:url(#radialGradient6162);fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -110,6 +110,6 @@
        sodipodi:rx="2.5"
        sodipodi:ry="97.5"
        d="m 40,954.86218 c 0,53.84772 -1.119288,97.50002 -2.5,97.50002 -1.380712,0 -2.5,-43.6523 -2.5,-97.50002 0,-53.84776 1.119288,-97.5 2.5,-97.5 1.380712,0 2.5,43.65224 2.5,97.5 z"
-       transform="matrix(7.4,0,0,1.0666667,-220.46447,-91.502666)" />
+       transform="matrix(0.2,0,0,0.2,33.535534,729.54456)" />
   </g>
 </svg>

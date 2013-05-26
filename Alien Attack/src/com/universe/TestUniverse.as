@@ -1,6 +1,9 @@
 package com.universe
 {
+	import com.objects.spaceobjects.AAPlayerShip;
 	import flash.display.Bitmap;
+	import flash.events.MouseEvent;
+	import com.objects.spaceobjects.AACannonShell;
 	
 	/**
 	 * ...
@@ -29,6 +32,19 @@ package com.universe
 					this.addChild(texarr[i][j]);
 				}
 			}
+			
+			//this.addEventListener(MouseEvent.CLICK, OnClick);
 		}
+		
+		
+		//private function OnClick(e:MouseEvent):void 
+		//{
+			//var brl:AACannonShell = new AACannonShell(this, 25, 10);
+			//var brl:AAPlayerShip = new AAPlayerShip(this);
+			//brl.x = mouseX;
+			//brl.y = mouseY;
+			//brl.rotation = 30;
+			//this.addChild(brl);
+		//}
 	}
 }

@@ -2,26 +2,44 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx"
-			   
+			   xmlns:custom="utilities.*"
 			   applicationComplete = "init()"
+			   height="600"
+			   width="800"
 			   backgroundColor = "0x0b0010">
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
+	<!-- <s:TextInput name="myInput" id="myIn" x="100" y="100" text="ADADADADAD"></s:TextInput> -->
+	
+	<!-- <custom:MyHUD name="myHud" id="myHud" x="0" y="0"></custom:MyHUD> -->
 	
 	<fx:Script>
 		<![CDATA[
 		
 		import flash.display.Sprite;
 		import flash.events.MouseEvent;
+		import mx.controls.TextInput;
+		import utilities.MyHUD;
 		
 		private var _app:App = new App();
+		
+		public var myText:String = "Mytext";
 		
 		private function init() : void
 		{
 			stage.addChild(_app);
+			//
+			//var mh:utilities.MyHUD = new utilities.MyHUD();
+			//mh.initialize();
+			//
+			//stage.addChild(mh);
+			//
+			//myHud.textInput.text = "KKKK";
+			//
+			//myIn.text = myText;
 		}
 		
 		]]>

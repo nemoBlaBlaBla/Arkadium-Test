@@ -20,19 +20,7 @@ package com.controllers
 		public function Controller(ship:AASpaceShip)
 		{
 			_ship = ship;
-			
-			var controllerTimer:GlobalTimer = GlobalTimer.GetInstance();
-			controllerTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
-		}
-		
-		private function OnTimerTick(e:Event):void 
-		{
-			Update();
-		}
-		
-		protected function Update() : void
-		{
-			
+			_ship.addChild(this);
 		}
 	}
 
