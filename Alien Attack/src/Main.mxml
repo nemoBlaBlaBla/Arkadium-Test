@@ -2,7 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:custom="utilities.*"
+			   xmlns:custom="views.*"
 			   applicationComplete = "init()"
 			   height="600"
 			   width="800"
@@ -14,7 +14,6 @@
 	
 	<!-- <s:TextInput name="myInput" id="myIn" x="100" y="100" text="ADADADADAD"></s:TextInput> -->
 	
-	<!-- <custom:MyHUD name="myHud" id="myHud" x="0" y="0"></custom:MyHUD> -->
 	
 	<fx:Script>
 		<![CDATA[
@@ -22,27 +21,47 @@
 		import flash.display.Sprite;
 		import flash.events.MouseEvent;
 		import mx.controls.TextInput;
-		import utilities.MyHUD;
+		import mx.core.UIComponent;
+		import mx.states.AddChild;
+		import views.GameView;
+		import views.MenuView;
 		
-		private var _app:App = new App();
+		private var _app:App;
 		
 		public var myText:String = "Mytext";
 		
 		private function init() : void
 		{
-			stage.addChild(_app);
+			//var uicomp:UIComponent = new UIComponent();
 			//
-			//var mh:utilities.MyHUD = new utilities.MyHUD();
-			//mh.initialize();
+			//_app = new App();
+			//stage.addChild(_app);
 			//
-			//stage.addChild(mh);
-			//
-			//myHud.textInput.text = "KKKK";
-			//
-			//myIn.text = myText;
+			//uicomp.addChild(_app);
+			//addElement(uicomp);
+			
+			
+			
+			//var mh:views.partialViews.MyHUD = new MyHUD();
+			//mh.x = 100;
+			//mh.y = 100;
+			//this.addElement(mh);
+			
+			//var game:views.GameView = new views.GameView();
+			//this.addElement(game);
+			
+			var menuView:views.MenuView = new views.MenuView();
+			this.addElement(menuView);
 		}
+		
+		//public static function SharedInstance():Main
+		//{
+			//return this;
+		//}
 		
 		]]>
 	</fx:Script>
+	
+	<!-- <custom:MyHUD name="myHud" id="myHud" x="700" y="500"></custom:MyHUD> -->
 	
 </s:Application>

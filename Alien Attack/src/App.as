@@ -1,23 +1,12 @@
 package
 {
-	import com.controllers.PlayerController;
-	import com.fx.particlesystem.ParticleSystem;
-	import com.fx.particlesystem.TestParticle;
-	import com.objects.spaceobjects.AAAlienShip;
-	import com.objects.spaceobjects.AAPlayerShip;
-	import com.objects.spaceobjects.AASpaceObject;
-	import com.objects.spaceobjects.AASpaceShip;
-	import com.universe.TestUniverse;
-	import com.universe.Universe;
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
-	import utilities.HUD;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	
+	import com.objects.spaceobjects.*;
+	import com.universe.*;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.utils.*;
+	import utilities.*;
+	import mx.containers.*;
 	/**
 	 * ...
 	 * @author Eugene
@@ -45,6 +34,9 @@ package
 			var spawnTimer:Timer = new Timer(_delay, 0);
 			spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
 			spawnTimer.start();
+			
+			//var mh:utilities.MyHUD = new utilities.MyHUD();
+			//this.addChildAt(mh, 0);
 		}
 		
 		private function OnAddingToStage(e:Event):void 

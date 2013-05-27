@@ -7,6 +7,7 @@ package com.controllers
 	import com.objects.spaceobjects.AASpaceShip;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import views.GameView;
 	
 	/**
 	 * ...
@@ -44,16 +45,18 @@ package com.controllers
 			if (hittedObject is AACannonShell)
 			{
 				_ship.health -= (hittedObject as AACannonShell).damage;
+				
 				hittedObject.Destroy();
 			}
 			else if (hittedObject is AAPlayerShip) 
 			{
+				views.GameView.points -= 100;
 				_ship.health -= 100;
 			}
-			//trace("HEALTH = " + _ship.health);
 			
 			if (_ship.health <= 0)
 			{
+				views.GameView.points += 30;
 				_ship.Destroy();
 			}
 		}

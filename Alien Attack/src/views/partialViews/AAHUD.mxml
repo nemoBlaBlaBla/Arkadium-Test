@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo"
+			   addedToStage="init()"
+			   backgroundAlpha="0"
+			   alpha="0.9">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+		
+	<fx:Script>
+		<![CDATA[
+		
+		import flash.events.Event;
+		import flash.events.TimerEvent;
+		import flash.utils.Timer;
+		import mx.controls.TextInput;
+		import mx.core.UIComponent;
+		import spark.components.Application;
+		import spark.filters.BlurFilter;
+		
+		[Bindable]
+		public var armorValue:Number = 0;
+		
+		[Bindable]
+		public var pointsValue:Number = 0;
+		
+		[Bindable]
+		private var _glowFactor:int = 3;
+		
+		private function init() : void
+		{
+			//textInput.text = "ALOALOALOA";
+			//_t = new Timer(30000, 1);
+			//_t.addEventListener(TimerEvent.TIMER, OnTimer);
+			//_t.start();
+			
+			var blur:BlurFilter = new BlurFilter(2, 2, 2);
+			this.filters.push(blur);
+			
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+		}
+		
+		private function OnEnterFrame(e:Event):void 
+		{
+			this.alpha = 1 - Math.random()*0.2;
+			this._glowFactor = 3 + this.alpha;
+		}
+		
+		//private function OnTimer(e:TimerEvent):void 
+		//{
+			//_t.removeEventListener(TimerEvent.TIMER, OnTimer);
+			//
+			//try 
+			//{
+				//(this.parentApplication as Application).removeElement(this);
+			//}
+			//catch (err:Error)
+			//{
+				//trace(err.getStackTrace);
+				//trace(err.message);
+			//}
+		//}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/halo";
+		
+		@font-face
+		{
+            src:url("/lib/fonts/saxmono.ttf");
+            fontFamily:instruction;
+            advancedAntiAliasing: true;
+        }
+		
+		.HudTextStyle
+		{
+			fontSize: 20;
+            color: #00FF00;
+			backgroundColor: #000000;
+			backgroundAlpha: 0;
+			fontSharpness: 10;
+			fontAntiAliasType: "advanced";
+			fontFamily: instruction;
+			fontWeight: normal;
+		}
+	</fx:Style>
+	
+	<s:Label name="labelPoints" id="labelPoints" x="10" y="10" styleName="HudTextStyle" text="PTS:"></s:Label>
+	<s:Label name="labelPointsValue" id="labelPointsValue" x="{labelPoints.x + labelPoints.width + 10}" y="10" styleName="HudTextStyle" text="{pointsValue}"></s:Label>
+	
+	<s:Label name="labelArmor" id="labelArmor" x="{this.stage.stageWidth - 150}" y="10" styleName="HudTextStyle" text="ARMOR:"></s:Label>
+	<s:Label name="labelArmorValue" id="labelArmorValue" x="{labelArmor.x + labelArmor.width + 10}" y="10" styleName="HudTextStyle" text="{armorValue}"></s:Label>
+	
+	<!-- <s:Label name="labelMssl" id="labelMssl" x="{this.stage.stageWidth - 140}" y="{labelArmor.y + labelArmor.height + 10}" styleName="HudTextStyle" text="MSSL:"></s:Label> -->
+	<!-- <s:Label name="labelMsslValue" id="labelMsslValue" x="{labelMssl.x + labelMssl.width + 10}" y="{labelMssl.y}" styleName="HudTextStyle" text="9"></s:Label> -->
+	<s:filters>
+		<s:BlurFilter blurX="1.1" blurY="1.1" quality="2"></s:BlurFilter>
+		<s:GlowFilter blurX="{this._glowFactor}" blurY="{this._glowFactor}" quality="2" color="0x00FF00"></s:GlowFilter>
+	</s:filters>
+	
+</s:Application>

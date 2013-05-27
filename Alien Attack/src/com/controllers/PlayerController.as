@@ -1,5 +1,6 @@
 package com.controllers
 {
+	import com.objects.spaceobjects.AAAlienShip;
 	import com.objects.spaceobjects.AAISpaceObjectDelegate;
 	import com.objects.spaceobjects.AASpaceObject;
 	import com.objects.spaceobjects.AASpaceShip;
@@ -74,17 +75,24 @@ package com.controllers
 		
 		public function OnHit(currentObject:AASpaceObject, hittedObject:AASpaceObject):void 
 		{
-			//trace("HIT!!! HIT!!! HIT!!!");
-			(currentObject as AASpaceShip).health -= 1;
-			trace("Health = " + (currentObject as AASpaceShip).health);
-			if ((currentObject as AASpaceShip).health < 0)
+			if (hittedObject is AAAlienShip)
 			{
-				(currentObject as AASpaceShip).Destroy();
+				(currentObject as AASpaceShip).health -= 25;
+				trace("Health = " + (currentObject as AASpaceShip).health);
+				if ((currentObject as AASpaceShip).health < 0)
+				{
+					(currentObject as AASpaceShip).Destroy();
+				}
 			}
 		}
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
+			_ship.Fire(false);
 			trace("Destroyed!!!");
 		}
 		

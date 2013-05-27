@@ -9,6 +9,7 @@ package com.universe
 	import flash.utils.Timer;
 	import utilities.Cam;
 	import utilities.GlobalTimer;
+	import views.GameView;
 	
 	/**
 	 * ...
