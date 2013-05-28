@@ -8,12 +8,8 @@
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
 	</fx:Declarations>
-	
-	<s:filters>
-		<s:BlurFilter blurX="1.1" blurY="1.1" quality="2"></s:BlurFilter>
-		<s:GlowFilter blurX="3" blurY="3" quality="2" color="0x00FF00"></s:GlowFilter>
-	</s:filters>
 	
 	<fx:Script>
 		<![CDATA[
@@ -22,9 +18,12 @@
 		import com.universe.*;
 		import flash.events.Event;
 		import flash.events.TimerEvent;
+		import flash.filters.GlowFilter;
 		import flash.utils.Timer;
 		import mx.core.UIComponent;
+		import mx.effects.Glow;
 		import views.MenuView
+		import utilities.AAGameParameters;
 		
 		static public var points:Number = 0;
 		
@@ -47,6 +46,8 @@
 			universeContainer.addChild(_universe);
 			addElementAt(universeContainer, 0);
 			
+			AAGameParameters.sharedInstance().WipeGameParameters();
+			
 			_spawnTimer = new Timer(_spawnDelay, 0);
 			_spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
 			_spawnTimer.start();
@@ -59,7 +60,7 @@
 		private function OnEnterFrame(e:Event):void 
 		{
 			this.hud.armorValue = _player.health;
-			this.hud.pointsValue = views.GameView.points;
+			this.hud.pointsValue = AAGameParameters.sharedInstance().playerScore;
 			
 			if (_player.health < 0)
 			{
@@ -96,8 +97,15 @@
 		]]>
 	</fx:Script>
 	
-	<partialViews:AAHUD id="hud" x="0" y="0"></partialViews:AAHUD>
+		<!--<mx:filters>
+			<mx:Glow suspendBackgroundProcessing="true" blurXFrom="1.1" blurXTo="1.3" blurYFrom="1.1" blurYTo="1.3"></mx:Glow>
+		</mx:filters>-->
 	
+	<partialViews:AAHUD id="hud" x="0" y="0">	</partialViews:AAHUD>
 	
+	<s:filters>
+		<s:BlurFilter blurX="1.2" blurY="1.2" quality="2"></s:BlurFilter>
+		<s:GlowFilter blurX="4" blurY="4" quality="2" color="0x00FF00"></s:GlowFilter>
+	</s:filters>
 	
 </s:Application>

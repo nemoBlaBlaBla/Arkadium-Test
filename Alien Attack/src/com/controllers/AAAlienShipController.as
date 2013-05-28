@@ -8,6 +8,7 @@ package com.controllers
 	import flash.events.Event;
 	import flash.geom.Point;
 	import views.GameView;
+	import utilities.AAGameParameters;
 	
 	/**
 	 * ...
@@ -50,13 +51,13 @@ package com.controllers
 			}
 			else if (hittedObject is AAPlayerShip) 
 			{
-				views.GameView.points -= 100;
+				AAGameParameters.sharedInstance().playerScore -= 100;
 				_ship.health -= 100;
 			}
 			
 			if (_ship.health <= 0)
 			{
-				views.GameView.points += 30;
+				AAGameParameters.sharedInstance().playerScore += 30;
 				_ship.Destroy();
 			}
 		}
