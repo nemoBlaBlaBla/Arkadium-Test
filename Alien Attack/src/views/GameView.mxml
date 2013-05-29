@@ -14,6 +14,7 @@
 	<fx:Script>
 		<![CDATA[
 		
+		import com.fx.particlesystem.ParticleSystem;
 		import com.objects.spaceobjects.*;
 		import com.universe.*;
 		import flash.events.Event;
@@ -24,6 +25,7 @@
 		import mx.effects.Glow;
 		import views.MenuView
 		import utilities.AAGameParameters;
+		import flash.ui.Mouse;
 		
 		static public var points:Number = 0;
 		
@@ -33,6 +35,8 @@
 		private var _spawnDelay:Number = 1000;
 		
 		private var _spawnTimer:Timer;
+		
+		private var partSys:ParticleSystem;
 		
 		private function init():void 
 		{
@@ -55,6 +59,29 @@
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			
 			views.GameView.points = 0;
+			
+			
+			
+			
+			partSys = new ParticleSystem(20, 10, 0, 0);
+			partSys.x = 100;
+			partSys.y = 100;
+			partSys.particleStartScale = 0.3;
+			partSys.particleEndScale = 0;
+			partSys.particleLifeTime = 1000;
+			partSys.emitFromAngle = 0;
+			partSys.emitToAngle = 360;
+			partSys.particleStartVelocity = 1;
+			partSys.particleEndVelocity = 0;
+			
+			
+			_universe.addChild(partSys);
+			
+			
+			
+			partSys.Start();
+			
+			Mouse.hide();
 		}
 		
 		private function OnEnterFrame(e:Event):void 
@@ -66,6 +93,11 @@
 			{
 				returnToMenu();
 			}
+			
+			partSys.x = this.mouseX;
+			partSys.y = this.mouseY;
+			
+			
 		}
 		
 		private function returnToMenu():void

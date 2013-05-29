@@ -4,6 +4,8 @@ package com.fx.particlesystem
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import mx.controls.NumericStepper;
+	import mx.formatters.NumberBaseRoundType;
 	import utilities.GlobalTimer;
 	
 	/**
@@ -12,153 +14,185 @@ package com.fx.particlesystem
 	 */
 	public class Particle extends Sprite
 	{
-		protected var _view:Sprite = new Sprite();
+		[Embed(source="/lib/BlueFireParticleTest3.svg")]
+		public var ParticleView:Class;
 		
-		protected var _lifeTimeInMS:int = 0;
+		//properties
+		private var _particleBitmapView:Sprite = new ParticleView();
 		
-		protected var _startScale:Number = 0;
-		protected var _finishScale:Number = 0;
+		private var _particleLifeTime:Number = 1000;
 		
-		protected var _startAlpha:Number = 0;
-		protected var _finishAlpha:Number = 0;
+		private var _particleStartVelocity:Number = 0;
+		private var _particleEndVelocity:Number = 0
 		
-		protected var _startVelocity:Number = 0;
-		protected var _finishVelocity:Number = 0;
+		private var _particleStartAlpha:Number = 1;
+		private var _particleEndAlpha:Number = 1;
 		
-		protected var _scaleDelta:Number = 0;
-		protected var _alphaDelta:Number = 0;
-		protected var _velocityDelta:Number = 0;
-		protected var _numberOfIterations:int = 0;
-		protected var _currentIteration:int = 0;
-		protected var _currentVelocity:int = 0;
+		private var _particleStartScale:Number = 1;
+		private var _particleEndScale:Number = 1;
 		
-		protected var _particleTimer:GlobalTimer;
+		//private fields
+		private var _particleTimer:Timer;
 		
-		public function Particle(lifeTimeInMS:int = 2000, startScale:Number = 1, finishScale:Number = 1, startAlpha:Number = 1, finishAlpha:Number = 1, startVelocity:Number = 0, finishVelosity:Number = 0)
+		private var _numberOfIterations:int = 0;
+		private var _velocityDelta:Number;
+		private var _alphaDelta:Number;
+		private var _scaleDelta:Number;
+		
+		private var _currentVelocity:Number = 0;
+		private var _currentIteration:int = 0;
+		
+		public function Particle()
 		{
-			this._lifeTimeInMS = lifeTimeInMS;
-			this._startScale = startScale;
-			this._finishScale = finishScale;
-			this._startAlpha = startAlpha;
-			this._finishAlpha = finishAlpha;
-			this._startVelocity = startVelocity;
-			this._finishVelocity = finishVelosity;
+			//this._lifeTimeInMS = lifeTimeInMS;
+			//this._startScale = startScale;
+			//this._finishScale = finishScale;
+			//this._startAlpha = startAlpha;
+			//this._finishAlpha = finishAlpha;
+			//this._startVelocity = startVelocity;
+			//this._finishVelocity = finishVelosity;
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
 			//_view.cacheAsBitmap = true;
 			
 			
-			_numberOfIterations = _lifeTimeInMS / 20;
-			_alphaDelta = (_finishAlpha - _startAlpha) / _numberOfIterations;
-			_scaleDelta = (_finishScale - _startScale) / _numberOfIterations;
-			_currentVelocity = _startVelocity;
+			
 		}
 		
 		private function onAddingToStage(e:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
-			_particleTimer = GlobalTimer.GetInstance();
-			_particleTimer.addEventListener(TimerEvent.TIMER, onTimerTick);
-			this.addChild(_view);
+			
+			this.particleBitmapView.x = -this.particleBitmapView.width / 2;
+			this.particleBitmapView.y = -this.particleBitmapView.height / 2;
+			
+			_numberOfIterations = this.particleLifeTime / 20;
+			_alphaDelta = (this.particleEndAlpha - this.particleStartAlpha) / _numberOfIterations;
+			_scaleDelta = (this.particleEndScale - this.particleStartScale) / _numberOfIterations;
+			_velocityDelta = (this.particleEndVelocity - this.particleStartVelocity) / _numberOfIterations;
+			_currentVelocity = this.particleStartVelocity;
+			
+			this.scaleX = this._particleStartScale;
+			this.scaleY = this._particleStartScale;
+			
+			_particleTimer = new Timer(20, _numberOfIterations);
+			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			
+			
+			_particleTimer = new Timer(20, _numberOfIterations);
+			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			_particleTimer.start();
+			this.addChild(this.particleBitmapView);
 		}
 		
-		private function onTimerTick(e:Event):void
+		private function OnTimerTick(e:Event):void
 		{
-			_velocityDelta = (_finishVelocity - _startVelocity) / _numberOfIterations;
 			this.alpha += _alphaDelta;
 			this.scaleX += _scaleDelta;
+			this.scaleY += _scaleDelta;
 			this._currentVelocity += _velocityDelta;
-			this.y += _currentVelocity;
+			
+			this.x += (Math.sin((this.rotation * Math.PI) / 180) * _currentVelocity);
+			this.y += (Math.cos((this.rotation * Math.PI) / 180) * _currentVelocity);
+
+			//this.y += _currentVelocity;
 			_currentIteration += 1;
 			if (_currentIteration >= _numberOfIterations)
 			{
-				_particleTimer.removeEventListener(TimerEvent.TIMER, onTimerTick);
-				parent.removeChild(this);
+				this.Destroy();
 			}
 		}
 		
-		public function get view():Sprite
+		private function Destroy() : void
 		{
-			return _view;
+			_particleTimer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
+			parent.removeChild(this);
+			trace("particle destroyed");
 		}
 		
-		public function set view(value:Sprite):void
+//{PROPERTIES GETTERS AND SETTERS	
+		public function get particleBitmapView():Sprite 
 		{
-			_view = value;
+			return _particleBitmapView;
 		}
 		
-		public function get lifeTimInMS():int
+		public function set particleBitmapView(value:Sprite):void 
 		{
-			return _lifeTimeInMS;
+			_particleBitmapView = value;
 		}
 		
-		public function set lifeTimInMS(value:int):void
+		public function get particleLifeTime():Number 
 		{
-			_lifeTimeInMS = value;
+			return _particleLifeTime;
 		}
 		
-		public function get startScale():Number
+		public function set particleLifeTime(value:Number):void 
 		{
-			return _startScale;
+			_particleLifeTime = value;
 		}
 		
-		public function set startScale(value:Number):void
+		public function get particleStartVelocity():Number 
 		{
-			_startScale = value;
+			return _particleStartVelocity;
 		}
 		
-		public function get finishScale():Number
+		public function set particleStartVelocity(value:Number):void 
 		{
-			return _finishScale;
+			_particleStartVelocity = value;
 		}
 		
-		public function set finishScale(value:Number):void
+		public function get particleEndVelocity():Number 
 		{
-			_finishScale = value;
+			return _particleEndVelocity;
 		}
 		
-		public function get startAlpha():Number
+		public function set particleEndVelocity(value:Number):void 
 		{
-			return _startAlpha;
+			_particleEndVelocity = value;
 		}
 		
-		public function set startAlpha(value:Number):void
+		public function get particleStartAlpha():Number 
 		{
-			_startAlpha = value;
+			return _particleStartAlpha;
 		}
 		
-		public function get finishAlpha():Number
+		public function set particleStartAlpha(value:Number):void 
 		{
-			return _finishAlpha;
+			_particleStartAlpha = value;
 		}
 		
-		public function set finishAlpha(value:Number):void
+		public function get particleEndAlpha():Number 
 		{
-			_finishAlpha = value;
+			return _particleEndAlpha;
 		}
 		
-		public function get startVelocity():Number
+		public function set particleEndAlpha(value:Number):void 
 		{
-			return _startVelocity;
+			_particleEndAlpha = value;
 		}
 		
-		public function set startVelocity(value:Number):void
+		public function get particleStartScale():Number 
 		{
-			_startVelocity = value;
-			_currentVelocity = _startVelocity;
+			return _particleStartScale;
 		}
 		
-		public function get finishVelocity():Number
+		public function set particleStartScale(value:Number):void 
 		{
-			return _finishVelocity;
+			_particleStartScale = value;
 		}
 		
-		public function set finishVelocity(value:Number):void
+		public function get particleEndScale():Number 
 		{
-			_finishVelocity = value;
+			return _particleEndScale;
 		}
-	
+		
+		public function set particleEndScale(value:Number):void 
+		{
+			_particleEndScale = value;
+		}
+//}
+		
 	}
 
 }
