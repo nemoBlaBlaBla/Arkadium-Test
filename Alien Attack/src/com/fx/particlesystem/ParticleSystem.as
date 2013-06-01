@@ -22,7 +22,8 @@ package com.fx.particlesystem
 		//properties
 		private var _particleBitmapView:Sprite = new ParticleView();
 		
-		private var _particlesPerSecond:int = 10;
+		private var _emissionDelayInMS:Number = 1000;
+		private var _particlesPerEmission:int = 10;
 		
 		private var _particleLifeTime:int = 1000;
 		
@@ -42,15 +43,15 @@ package com.fx.particlesystem
 		private var _emitToAngle:Number = 0;
 		
 		//private fields
-		private var _tickEvery:Number = 0;
+		//private var _tickEvery:Number = 0;
 		private var _timer:Timer;
 		
-		public function ParticleSystem(particlesPerSecond:int = 20, particleVelocity:int = 0, xRange:uint = 0, yRange:uint = 0)
+		public function ParticleSystem(emissionDelayInMS:int = 1000, particleVelocity:int = 0, xRange:uint = 0, yRange:uint = 0)
 		{
 			//this.addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
-			_particlesPerSecond = particlesPerSecond;
+			_emissionDelayInMS = emissionDelayInMS;
 			
-			_tickEvery = 1000 / _particlesPerSecond;
+			//_tickEvery = 1000 / _emissionDelayInMS;
 			
 			_particleStartVelocity = particleVelocity;
 			_particleEndVelocity = particleVelocity;
@@ -58,7 +59,7 @@ package com.fx.particlesystem
 			_xRange = xRange;
 			_yRange = yRange;
 			
-			_timer = new Timer(_tickEvery);
+			_timer = new Timer(_emissionDelayInMS);
 			_timer.start();
 		}
 		
@@ -69,27 +70,30 @@ package com.fx.particlesystem
 		
 		private function OnTimerTick(e:Event):void
 		{	
-			var p:Particle = new Particle();
-			p.particleLifeTime = this.particleLifeTime;
+			for (var i:int = 0; i < this.particlesPerEmission; i++)
+			{
+				var p:Particle = new Particle();
+				p.particleLifeTime = this.particleLifeTime;
 			
-			p.particleStartVelocity = this.particleStartVelocity;
-			p.particleEndVelocity = this.particleEndVelocity;
+				p.particleStartVelocity = this.particleStartVelocity;
+				p.particleEndVelocity = this.particleEndVelocity;
 			
-			p.particleStartAlpha = this.particleStartAlpha;
-			p.particleEndAlpha = this.particleEndAlpha;
+				p.particleStartAlpha = this.particleStartAlpha;
+				p.particleEndAlpha = this.particleEndAlpha;
 			
-			p.particleStartScale = this.particleStartScale;
-			p.particleEndScale = this.particleEndScale;
+				p.particleStartScale = this.particleStartScale;
+				p.particleEndScale = this.particleEndScale;
 			
-			//p.x = this.x + (_xRange / 2) - _xRange * Math.random();
-			//p.y = this.y + (_yRange / 2) - _yRange * Math.random();
+				p.x = this.x + (_xRange / 2) - _xRange * Math.random();
+				p.y = this.y + (_yRange / 2) - _yRange * Math.random();
 			
-			p.x = this.x;
-			p.y = this.y;
+				//p.x = this.x;
+				//p.y = this.y;
 			
-			p.rotation = this.emitFromAngle + (this.emitFromAngle - this.emitToAngle) * Math.random();
+				p.rotation = this.emitFromAngle + (this.emitFromAngle - this.emitToAngle) * Math.random();
 
-			parent.addChild(p);
+				parent.addChild(p);
+			}
 		}
 		
 		public function Stop():void
@@ -110,15 +114,7 @@ package com.fx.particlesystem
 			_particleBitmapView = value;
 		}
 
-		public function get particlesPerSecond():int 
-		{
-			return _particlesPerSecond;
-		}
 		
-		public function set particlesPerSecond(value:int):void 
-		{
-			_particlesPerSecond = value;
-		}
 		
 		public function get particleLifeTime():int 
 		{
@@ -228,6 +224,26 @@ package com.fx.particlesystem
 		public function set emitToAngle(value:Number):void 
 		{
 			_emitToAngle = value;
+		}
+		
+		public function get emissionDelayInMS():Number 
+		{
+			return _emissionDelayInMS;
+		}
+		
+		public function set emissionDelayInMS(value:Number):void 
+		{
+			_emissionDelayInMS = value;
+		}
+		
+		public function get particlesPerEmission():int 
+		{
+			return _particlesPerEmission;
+		}
+		
+		public function set particlesPerEmission(value:int):void 
+		{
+			_particlesPerEmission = value;
 		}
 //}}
 	

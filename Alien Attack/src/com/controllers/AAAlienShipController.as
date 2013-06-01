@@ -34,8 +34,18 @@ package com.controllers
 		public function Update(currentObject:AASpaceObject):void 
 		{
 			_ship.MoveBackward(true);
+			if (Math.random() - 0.5 > 0)
+			{
+				_ship.MoveLeft(true);
+				_ship.MoveRight(false);
+			}
+			else
+			{
+				_ship.MoveLeft(false);
+				_ship.MoveRight(true);
+			}
 			
-			if (stage && (localToGlobal(new Point(0, _ship.y)).y > stage.stageHeight + 300))
+			if (stage && (currentObject.y > stage.stageHeight + 100))
 			{
 				_ship.Destroy();
 			}
@@ -47,7 +57,7 @@ package com.controllers
 			{
 				_ship.health -= (hittedObject as AACannonShell).damage;
 				
-				hittedObject.Destroy();
+				(hittedObject as AACannonShell).DestroyShell();
 			}
 			else if (hittedObject is AAPlayerShip) 
 			{
@@ -64,6 +74,7 @@ package com.controllers
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
+			_ship.engine.Destroy();
 			trace("DESTROYED!!!");
 		}
 		

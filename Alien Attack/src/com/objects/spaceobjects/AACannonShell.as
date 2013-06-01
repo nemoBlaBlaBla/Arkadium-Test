@@ -45,9 +45,7 @@ package com.objects.spaceobjects
 		
 		private function OnTimer(e:TimerEvent):void 
 		{
-			_lifeTimer.stop();
-			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
-			this.Destroy();
+			this.DestroyShell();
 		}
 		
 		public function get damage():Number 
@@ -58,6 +56,13 @@ package com.objects.spaceobjects
 		public function set damage(value:Number):void 
 		{
 			_damage = value;
+		}
+		
+		public function DestroyShell() : void
+		{
+			_lifeTimer.stop();
+			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
+			this.Destroy();
 		}
 	}
 }

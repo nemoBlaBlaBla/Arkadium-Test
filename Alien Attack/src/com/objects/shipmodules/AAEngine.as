@@ -33,8 +33,8 @@ package com.objects.shipmodules
 			_maxRotationForce = maxRotationForce;
 			
 			_globalTimer = GlobalTimer.GetInstance();
-			_globalTimer.addEventListener(TimerEvent.TIMER, onTimerTick);
-			addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
+			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			//addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
 			//_particleSystem1 = new ParticleSystem(this, 50, 0, 2, 0);
 			//_particleSystem2 = new ParticleSystem(this, 50, 0, 2, 0);
@@ -47,17 +47,17 @@ package com.objects.shipmodules
 		}
 		
 //{ EVENT HANDLERS
-		private function onAddingToStage(e:Event):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
+		//private function onAddingToStage(e:Event):void 
+		//{
+			//removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			//this.addChild(_particleSystem1);
 			//this.addChild(_particleSystem2);
 			//_particleSystem1.Start();
 			//_particleSystem2.Start();
-		}
+		//}
 		
 		
-		private function onTimerTick(e:TimerEvent):void
+		private function OnEnterFrame(e:Event):void
 		{
 			_ship.force = new Point(_ship.thrustForceVector.x * _currentThrustForce, _ship.thrustForceVector.y * currentThrustForce);
 			_ship.angularForce = _ship.rotationForceFactor * _currentRotationForce;
@@ -68,8 +68,6 @@ package com.objects.shipmodules
 		public function MaximumThrust():void
 		{	
 			this.currentThrustForce = this.maxThrustForce;
-			//_particleSystem1.particleVelocity = 7;
-			//_particleSystem2.particleVelocity = 7;
 		}
 		
 		public function MaximumTurn() : void 
@@ -87,6 +85,11 @@ package com.objects.shipmodules
 		{
 			//_particleSystem1.particleVelocity = 0;
 			//_particleSystem2.particleVelocity = 0;
+		}
+		
+		public function Destroy():void
+		{
+			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 		}
 
 //{ PROPERTIES GETTERS AND SETTERS			

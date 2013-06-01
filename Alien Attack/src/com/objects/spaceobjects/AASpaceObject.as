@@ -44,11 +44,7 @@ package com.objects.spaceobjects
 		public function AASpaceObject(universe:Universe)
 		{
 			_universe = universe;
-			//var updateTimer:GlobalTimer = GlobalTimer.GetInstance();
-			//updateTimer.start();
-			//updateTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			//this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 		}
 		
 		//private function OnAddingToStage(e:Event):void 
