@@ -1,5 +1,6 @@
 package com.controllers 
 {
+	import com.fx.explosions.AASmallExplosion;
 	import com.objects.spaceobjects.AAISpaceObjectDelegate;
 	import com.objects.spaceobjects.AASpaceObject;
 	
@@ -29,7 +30,11 @@ package com.controllers
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			
+			var explosion:AASmallExplosion  = new AASmallExplosion(currentObject.universe);
+			explosion.x = currentObject.x;
+			explosion.y = currentObject.y;
+			explosion.Explode();
+			explosion = null;
 		}
 		
 	}

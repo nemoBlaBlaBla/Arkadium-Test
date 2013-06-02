@@ -65,6 +65,8 @@ package com.objects.spaceobjects
 				parent.removeChild(this);
 			}
 			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			view.bitmapData.dispose();
+			view = null;
 		}
 		
 		private function OnEnterFrame(e:Event):void 
@@ -78,17 +80,21 @@ package com.objects.spaceobjects
 			
 			for (var i:int = 0; i < universe.numChildren; i++) 
 			{
-				if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
+				try 
 				{
-					if (delegate)
+					if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
 					{
-						delegate.OnHit(this, universe.getChildAt(i) as AASpaceObject);
+						if (delegate)
+						{
+							delegate.OnHit(this, universe.getChildAt(i) as AASpaceObject);
+						}
 					}
-					
-					//if (universe.getChildAt(i) is AAAlienShip)
-					//{
-						//trace("HIT whith " + universe.getChildAt(i).name + "type: " + typeof(universe.getChildAt(i)));
-					//}
+				}
+				catch (err:Error)
+				{
+					trace(err.name);
+					trace(err.message);
+					trace(err.getStackTrace());
 				}
 			}
 		}

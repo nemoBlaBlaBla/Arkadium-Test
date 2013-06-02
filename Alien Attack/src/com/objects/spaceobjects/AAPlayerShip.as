@@ -1,6 +1,8 @@
 package com.objects.spaceobjects 
 {
+	import com.objects.shipmodules.cannons.AAAlienBlaster;
 	import com.objects.shipmodules.AACannon;
+	import com.objects.shipmodules.cannons.AAMachineGun;
 	import flash.display.Sprite
 	import com.controllers.PlayerController;
 	import com.universe.Universe;
@@ -30,7 +32,9 @@ package com.objects.spaceobjects
 			this.engine = new AAEngine(this, 500, 700);
 			this.addChild(this.engine);
 			
-			this.cannon = new AACannon(this);
+			//this.cannon = new AACannon(this);
+			//this.cannon = new AAAlienBlaster(this);
+			this.cannon = new AAMachineGun(this);
 			
 			this.delegate = new PlayerController(this);
 			

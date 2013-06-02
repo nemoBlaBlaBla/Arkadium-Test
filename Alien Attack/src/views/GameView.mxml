@@ -32,7 +32,7 @@
 		private var _universe:Universe;
 		private var _player:AAPlayerShip;
 		
-		private var _spawnDelay:Number = 1000;
+		private var _spawnDelay:Number = 2000;
 		
 		private var _spawnTimer:Timer;
 		
@@ -62,95 +62,6 @@
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			
 			views.GameView.points = 0;
-			
-			
-			
-			
-			partSys = new ParticleSystem(4000);
-			partSys.x = 100;
-			partSys.y = 100;
-			partSys.xRange = 20;
-			partSys.yRange = 20;
-			partSys.particleStartScale = 0.2;
-			partSys.particleEndScale = 0;
-			partSys.particleLifeTime = 200;
-			partSys.emitFromAngle = 0;
-			partSys.emitToAngle = 360;
-			partSys.particleStartVelocity = 20;
-			partSys.particleEndVelocity = 5;
-			
-			//partSys.emissionsPerSecond = 0.25;
-			partSys.particlesPerEmission = 6;
-			
-			
-			_universe.addChild(partSys);
-			
-			partSys2 = new ParticleSystem(4000);
-			partSys2.x = 100;
-			partSys2.y = 100;
-			partSys2.xRange = 20;
-			partSys2.yRange = 20;
-			partSys2.particleStartScale = 0.2;
-			partSys2.particleEndScale = 0;
-			partSys2.particleLifeTime = 250;
-			partSys2.emitFromAngle = 0;
-			partSys2.emitToAngle = 360;
-			partSys2.particleStartVelocity = 15;
-			partSys2.particleEndVelocity = 3;
-			
-			//partSys2.emissionsPerSecond = 0.25;
-			partSys2.particlesPerEmission = 6;
-			
-			
-			_universe.addChild(partSys2);
-			
-			partSys3 = new ParticleSystem(4000);
-			partSys3.x = 100;
-			partSys3.y = 100;
-			partSys3.xRange = 50;
-			partSys3.yRange = 50;
-			partSys3.particleStartScale = 0.7;
-			partSys3.particleEndScale = 0.3;
-			partSys3.particleStartAlpha = 1;
-			partSys3.particleEndAlpha = 0;
-			partSys3.particleLifeTime = 1000;
-			partSys3.emitFromAngle = 0;
-			partSys3.emitToAngle = 360;
-			partSys3.particleStartVelocity = 1;
-			partSys3.particleEndVelocity = 0;
-			
-			//partSys3.emissionsPerSecond = 0.25;
-			partSys3.particlesPerEmission = 3;
-			
-			
-			_universe.addChild(partSys3);
-			
-			
-			partSys4 = new ParticleSystem(4000);
-			partSys4.x = 100;
-			partSys4.y = 100;
-			partSys4.xRange = 70;
-			partSys4.yRange = 70;
-			partSys4.particleStartScale = 0.1;
-			partSys4.particleEndScale = 0;
-			partSys4.particleStartAlpha = 1;
-			partSys4.particleEndAlpha = 0.4
-			partSys4.particleLifeTime = 1500;
-			partSys4.emitFromAngle = 0;
-			partSys4.emitToAngle = 360;
-			partSys4.particleStartVelocity = 2;
-			partSys4.particleEndVelocity = 0;
-			
-			//partSys3.emissionsPerSecond = 0.25;
-			partSys4.particlesPerEmission = 5;
-			
-			
-			_universe.addChild(partSys4);
-			
-			partSys3.Start();
-			partSys.Start();
-			partSys2.Start();
-			partSys4.Start();
 			
 			//Mouse.hide();
 		}
@@ -191,7 +102,7 @@
 			{
 				var alien:AASpaceShip = new AAAlienShip(_universe);
 				alien.rotation = 180;
-				alien.y = -200;
+				alien.y = -200 + (Math.random() * 100);
 				alien.x = Math.random() * stage.stageWidth;
 				_universe.addChild(alien);
 			}
@@ -200,15 +111,6 @@
 		]]>
 	</fx:Script>
 	
-		<!--<mx:filters>
-			<mx:Glow suspendBackgroundProcessing="true" blurXFrom="1.1" blurXTo="1.3" blurYFrom="1.1" blurYTo="1.3"></mx:Glow>
-		</mx:filters>-->
-	
 	<partialViews:AAHUD id="hud" x="0" y="0">	</partialViews:AAHUD>
-	
-	<s:filters>
-		<s:BlurFilter blurX="1.2" blurY="1.2" quality="2"></s:BlurFilter>
-		<s:GlowFilter blurX="4" blurY="4" quality="2" color="0x00FF00"></s:GlowFilter>
-	</s:filters>
 	
 </s:Application>

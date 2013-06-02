@@ -12,23 +12,37 @@
 		var params = {
 			menu: "false",
 			scale: "noScale",
-			allowFullscreen: "true",
+			allowFullscreen: "false",
 			allowScriptAccess: "always",
-			bgcolor: "",
+			bgcolor: "#000000",
 			wmode: "direct" // can cause issues with FP settings & webcam
 		};
-		var attributes = {
-			id:"AlienAttack"
+		var attributes = 
+		{
+			id:"AlienAttack",
+			height:"600",
+			width:"800"
 		};
 		swfobject.embedSWF(
 			"AlienAttack.swf", 
-			"altContent", "100%", "100%", "10.0.0", 
+			"altContent", "800", "600", "10.0.0", 
 			"expressInstall.swf", 
 			flashvars, params, attributes);
 	</script>
 	<style>
-		html, body { height:100%; overflow:hidden; }
-		body { margin:0; }
+		html, body 
+		{ 
+			height:100%;
+			overflow:hidden; 
+		}
+		body 
+		{ 
+			margin:0; 
+		}
+		#content
+		{
+			height:100%;
+		}
 	</style>
 </head>
 <body>

@@ -3,6 +3,7 @@ package com.objects.spaceobjects
 	import com.controllers.AAAlienShipController;
 	import com.universe.Universe;
 	import com.objects.shipmodules.AAEngine;
+	import com.objects.shipmodules.cannons.AAAlienBlaster;
 	/**
 	 * ...
 	 * @author Eugene Tkachenko
@@ -29,6 +30,7 @@ package com.objects.spaceobjects
 			view.y = -view.height / 2;
 			this.addChild(view);
 			
+			this.cannon = new AAAlienBlaster(this);
 			
 			this.delegate = new AAAlienShipController(this);
 			

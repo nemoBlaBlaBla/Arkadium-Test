@@ -20,7 +20,7 @@ package com.fx.particlesystem
 		public var ParticleView:Class;
 		
 		//properties
-		private var _particleBitmapView:Sprite = new ParticleView();
+		private var _particleBitmapView:Sprite;
 		
 		private var _emissionDelayInMS:Number = 1000;
 		private var _particlesPerEmission:int = 10;
@@ -36,8 +36,8 @@ package com.fx.particlesystem
 		private var _particleStartAlpha:Number = 1;
 		private var _particleEndAlpha:Number = 1;
 		
-		private var _particleStartScale:Number = 0;
-		private var _particleEndScale:Number = 0;
+		private var _particleStartScale:Number = 1;
+		private var _particleEndScale:Number = 1;
 		
 		private var _emitFromAngle:Number = 0;
 		private var _emitToAngle:Number = 0;
@@ -66,13 +66,24 @@ package com.fx.particlesystem
 		public function Start():void
 		{
 			_timer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			this.EmitParticles();
 		}
 		
 		private function OnTimerTick(e:Event):void
 		{	
+			this.EmitParticles();
+		}
+		
+		public function EmitParticles():void
+		{
 			for (var i:int = 0; i < this.particlesPerEmission; i++)
 			{
 				var p:Particle = new Particle();
+				
+				if (this.ParticleView)
+				{
+					p.particleBitmapView = new ParticleView();
+				}
 				p.particleLifeTime = this.particleLifeTime;
 			
 				p.particleStartVelocity = this.particleStartVelocity;
@@ -87,9 +98,6 @@ package com.fx.particlesystem
 				p.x = this.x + (_xRange / 2) - _xRange * Math.random();
 				p.y = this.y + (_yRange / 2) - _yRange * Math.random();
 			
-				//p.x = this.x;
-				//p.y = this.y;
-			
 				p.rotation = this.emitFromAngle + (this.emitFromAngle - this.emitToAngle) * Math.random();
 
 				parent.addChild(p);
@@ -99,7 +107,8 @@ package com.fx.particlesystem
 		public function Stop():void
 		{
 			_timer.stop();
-			//_timer.removeEventListener(TimerEvent.TIMER, onTimerTick);
+			_timer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
+			_timer = null;
 		}
 		
 //{ PROPERTIES GETTERS AND SETTERS

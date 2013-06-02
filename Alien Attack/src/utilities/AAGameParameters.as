@@ -1,5 +1,6 @@
 package utilities
 {
+	import flash.geom.Point;
 	
 	/**
 	 * ...
@@ -11,6 +12,7 @@ package utilities
 		private static var _sharedInstance:AAGameParameters;
 		
 		private var _playerScore:Number = 0;
+		private var _playerPosition:Point = new Point();
 		
 		public function AAGameParameters()
 		{
@@ -41,6 +43,16 @@ package utilities
 		public function set playerScore(value:Number):void 
 		{
 			_playerScore = value;
+		}
+		
+		public function get playerPosition():Point 
+		{
+			return _playerPosition;
+		}
+		
+		public function set playerPosition(value:Point):void 
+		{
+			_playerPosition = value;
 		}
 //}
 	}

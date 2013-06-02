@@ -9,6 +9,9 @@ package com.controllers
 	import flash.geom.Point;
 	import views.GameView;
 	import utilities.AAGameParameters;
+	import com.fx.explosions.AABigExplosion;
+	import utilities.AAGameParameters;
+	import com.objects.spaceobjects.shells.AAGunBullet;
 	
 	/**
 	 * ...
@@ -26,7 +29,7 @@ package com.controllers
 		private function OnAddToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
-			trace("Added to stage  " + stage.stageHeight);
+			//trace("Added to stage  " + stage.stageHeight);
 		}
 		
 		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectDelegate */
@@ -47,13 +50,24 @@ package com.controllers
 			
 			if (stage && (currentObject.y > stage.stageHeight + 100))
 			{
+				_ship.universe.removeChild(_ship);
 				_ship.Destroy();
+			}
+			
+			var playerPos:Point = AAGameParameters.sharedInstance().playerPosition;
+			if (Math.abs(playerPos.x - _ship.x) < 50 && (playerPos.y > _ship.y))
+			{
+				_ship.Fire(true);
+			}
+			else
+			{
+				_ship.Fire(false);
 			}
 		}
 		
 		public function OnHit(currentObject:AASpaceObject, hittedObject:AASpaceObject):void 
 		{
-			if (hittedObject is AACannonShell)
+			if (hittedObject is AAGunBullet)
 			{
 				_ship.health -= (hittedObject as AACannonShell).damage;
 				
@@ -75,7 +89,16 @@ package com.controllers
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
 			_ship.engine.Destroy();
-			trace("DESTROYED!!!");
+			_ship.Fire(false);
+			if (stage && (currentObject.y < stage.stageHeight + 100))
+			{
+				var explosion:AABigExplosion = new AABigExplosion(currentObject.universe);
+				explosion.x = currentObject.x;
+				explosion.y = currentObject.y;
+				explosion.Explode();
+				explosion = null;
+			}
+			//trace("DESTROYED!!!");
 		}
 		
 	}

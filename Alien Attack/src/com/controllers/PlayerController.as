@@ -10,6 +10,9 @@ package com.controllers
 	import flash.ui.Keyboard;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import utilities.AAGameParameters;
+	import com.objects.spaceobjects.AACannonShell;
+	import com.objects.spaceobjects.shells.AABlasterShell;
 	
 	/**
 	 * ...
@@ -69,6 +72,18 @@ package com.controllers
 			{
 				_ship.StopTurn();
 			}
+			
+			if (_ship.x < 0)
+			{
+				_ship.x = 0;
+			}
+			else if (_ship.x > stage.stageWidth)
+			{
+				_ship.x = stage.stageWidth;
+			}
+			
+			AAGameParameters.sharedInstance().playerPosition.x = _ship.x;
+			AAGameParameters.sharedInstance().playerPosition.y = _ship.y;
 		}
 		
 		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectDelegate */
@@ -78,11 +93,17 @@ package com.controllers
 			if (hittedObject is AAAlienShip)
 			{
 				(currentObject as AASpaceShip).health -= 25;
-				trace("Health = " + (currentObject as AASpaceShip).health);
+				//trace("Health = " + (currentObject as AASpaceShip).health);
 				if ((currentObject as AASpaceShip).health < 0)
 				{
 					(currentObject as AASpaceShip).Destroy();
 				}
+			}
+			else if (hittedObject is AABlasterShell)
+			{
+				_ship.health -= (hittedObject as AACannonShell).damage;
+				
+				(hittedObject as AACannonShell).DestroyShell();
 			}
 		}
 		
@@ -93,7 +114,7 @@ package com.controllers
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
 			_ship.Fire(false);
-			trace("Destroyed!!!");
+			//trace("Destroyed!!!");
 		}
 		
 		

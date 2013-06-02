@@ -11,19 +11,16 @@ package com.objects.shipmodules
 	public class AACannon 
 	{
 		
-		private var _fireRate : Number = 9;
+		protected var _fireRate : Number = 5;
 		private var _ship : AASpaceShip;
-		private var _spreading : Number = 2;
-		//private var _shell : AACannonShell;
+		protected var _spreading : Number = 5;
+		protected var _shellType:Class = AACannonShell;
 		
 		private var _fireTimer:Timer;
 		
 		public function AACannon(ship : AASpaceShip) 
 		{
 			_ship = ship;
-			
-			_fireTimer = new Timer(1000 / _fireRate, 0);
-			_fireTimer.addEventListener(TimerEvent.TIMER, OnTimer);
 		}
 		
 		private function OnTimer(e:TimerEvent):void 
@@ -33,6 +30,11 @@ package com.objects.shipmodules
 		
 		public function Fire(start:Boolean) : void 
 		{
+			if (!_fireTimer)
+			{
+				_fireTimer = new Timer(1000 / _fireRate, 0);
+				_fireTimer.addEventListener(TimerEvent.TIMER, OnTimer);
+			}
 			if (start)
 			{
 				this._fireTimer.start();
@@ -47,7 +49,8 @@ package com.objects.shipmodules
 		{
 			Math.random();
 			
-			var shell:AACannonShell = new AACannonShell(_ship.universe, 50, _ship.rotation + ((Math.random() * _spreading) - _spreading / 2));
+			//var shell:AACannonShell = _shell
+			var shell:AACannonShell = new _shellType(_ship.universe, _ship.rotation + ((Math.random() * _spreading) - _spreading / 2));
 			
 			shell.x = _ship.x - (Math.sin((_ship.rotation * Math.PI) / 180) * - 70);
 			shell.y = _ship.y + (Math.cos((_ship.rotation * Math.PI) / 180) * - 70);

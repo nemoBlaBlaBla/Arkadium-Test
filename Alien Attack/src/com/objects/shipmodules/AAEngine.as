@@ -6,7 +6,7 @@ package com.objects.shipmodules
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
-	import utilities.GlobalTimer;
+	import flash.utils.Timer;
 	
 	/**
 	 * ...
@@ -20,7 +20,6 @@ package com.objects.shipmodules
 		private var _maxRotationForce : Number = 0;
 		private var _currentRotationForce : Number = 0;
 		
-		protected var _globalTimer:GlobalTimer;
 		protected var _particleSystem1:ParticleSystem; 
 		protected var _particleSystem2:ParticleSystem; 
 		
@@ -32,7 +31,6 @@ package com.objects.shipmodules
 			_maxThrustForce = maxThrustForce;
 			_maxRotationForce = maxRotationForce;
 			
-			_globalTimer = GlobalTimer.GetInstance();
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			//addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			

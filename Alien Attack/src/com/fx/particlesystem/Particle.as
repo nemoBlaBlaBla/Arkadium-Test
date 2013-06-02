@@ -1,5 +1,6 @@
 package com.fx.particlesystem
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -14,11 +15,11 @@ package com.fx.particlesystem
 	 */
 	public class Particle extends Sprite
 	{
-		[Embed(source="/lib/BlueFireParticleTest3.svg")]
+		[Embed(source="/lib/explosion_slow_sparcles.png")]
 		public var ParticleView:Class;
 		
 		//properties
-		private var _particleBitmapView:Sprite = new ParticleView();
+		private var _particleBitmapView:Bitmap = new ParticleView();
 		
 		private var _particleLifeTime:Number = 1000;
 		
@@ -44,30 +45,20 @@ package com.fx.particlesystem
 		
 		public function Particle()
 		{
-			//this._lifeTimeInMS = lifeTimeInMS;
-			//this._startScale = startScale;
-			//this._finishScale = finishScale;
-			//this._startAlpha = startAlpha;
-			//this._finishAlpha = finishAlpha;
-			//this._startVelocity = startVelocity;
-			//this._finishVelocity = finishVelosity;
-			
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
-			
-			//_view.cacheAsBitmap = true;
-			
-			
-			
 		}
 		
 		private function onAddingToStage(e:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
+			_particleTimer = new Timer(30, _numberOfIterations);
+			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			
 			this.particleBitmapView.x = -this.particleBitmapView.width / 2;
 			this.particleBitmapView.y = -this.particleBitmapView.height / 2;
 			
-			_numberOfIterations = this.particleLifeTime / 20;
+			_numberOfIterations = this.particleLifeTime / _particleTimer.delay;
 			_alphaDelta = (this.particleEndAlpha - this.particleStartAlpha) / _numberOfIterations;
 			_scaleDelta = (this.particleEndScale - this.particleStartScale) / _numberOfIterations;
 			_velocityDelta = (this.particleEndVelocity - this.particleStartVelocity) / _numberOfIterations;
@@ -76,12 +67,6 @@ package com.fx.particlesystem
 			this.scaleX = this._particleStartScale;
 			this.scaleY = this._particleStartScale;
 			
-			_particleTimer = new Timer(20, _numberOfIterations);
-			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
-			
-			
-			_particleTimer = new Timer(20, _numberOfIterations);
-			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
 			_particleTimer.start();
 			this.addChild(this.particleBitmapView);
 		}
@@ -90,13 +75,12 @@ package com.fx.particlesystem
 		{
 			this.alpha += _alphaDelta;
 			this.scaleX += _scaleDelta;
-			this.scaleY += _scaleDelta;
+			this.scaleY = this.scaleX;
 			this._currentVelocity += _velocityDelta;
 			
 			this.x += (Math.sin((this.rotation * Math.PI) / 180) * _currentVelocity);
 			this.y += (Math.cos((this.rotation * Math.PI) / 180) * _currentVelocity);
 
-			//this.y += _currentVelocity;
 			_currentIteration += 1;
 			if (_currentIteration >= _numberOfIterations)
 			{
@@ -107,17 +91,23 @@ package com.fx.particlesystem
 		private function Destroy() : void
 		{
 			_particleTimer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
-			parent.removeChild(this);
-			trace("particle destroyed");
+			_particleTimer.stop();
+			_particleTimer = null;
+			if (this.parent)
+			{
+				this.parent.removeChild(this);
+			}
+			this.particleBitmapView.bitmapData.dispose();
+			this.particleBitmapView = null;
 		}
 		
 //{PROPERTIES GETTERS AND SETTERS	
-		public function get particleBitmapView():Sprite 
+		public function get particleBitmapView():Bitmap 
 		{
 			return _particleBitmapView;
 		}
 		
-		public function set particleBitmapView(value:Sprite):void 
+		public function set particleBitmapView(value:Bitmap):void 
 		{
 			_particleBitmapView = value;
 		}

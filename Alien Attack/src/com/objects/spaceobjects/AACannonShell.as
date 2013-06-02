@@ -2,6 +2,7 @@ package com.objects.spaceobjects
 {
 	import com.controllers.AACannonShellBehaviourDelegate;
 	import com.universe.Universe;
+	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Timer;
@@ -12,35 +13,44 @@ package com.objects.spaceobjects
 	 */
 	public class AACannonShell extends AASpaceObject 
 	{
-		private var _damage : Number = 7;
-		private var _lifeTime : Number = 0.75;
+		protected var _damage : Number = 3;
+		protected var _lifeTimeInMS : Number = 750;
 		private var _lifeTimer:Timer;
-		private var _startVelocity : Number = 0;
+		protected var _startVelocity : Number = 0;
 		
 		//[Embed(source = "/lib/FireParticleTest3.svg")]
-		[Embed(source = "/lib/CanonShell.png")]
+		//[Embed(source = "/lib/CanonShell.png")]
+		[Embed(source = "/lib/blaster_shell.png")]
+
 		private var ShellView:Class;
 		
-		public function AACannonShell(universe:Universe, startVelocity:Number, angle:Number = 0) 
+		public function AACannonShell(universe:Universe,  angle:Number = 0) 
 		{
 			super(universe);
+			this.delegate = new AACannonShellBehaviourDelegate();
+			
+			this.rotation = angle;
+			
+			this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+		}
+		
+		private function OnAddingToStage(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 			
 			this.mass = 0;
 			
-			this.view = new ShellView();
+			
+			this.velocity = new Point(_startVelocity * Math.sin((this.rotation * Math.PI) / 180), -_startVelocity * Math.cos((this.rotation * Math.PI) / 180));
+
+			//this.view = new ShellView();
 			this.view.x = -view.width / 2;
 			this.view.y = -view.height / 2;
 			this.addChild(this.view);
 			
-			this.velocity = new Point(startVelocity * Math.sin((angle * Math.PI) / 180), -startVelocity * Math.cos((angle * Math.PI) / 180));
-			this.rotation = angle;
-			
-			_lifeTimer = new Timer(_lifeTime * 1000, 1);
+			_lifeTimer = new Timer(_lifeTimeInMS, 1);
 			_lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
 			_lifeTimer.start();
-			
-			
-			this.delegate = new AACannonShellBehaviourDelegate();
 		}
 		
 		private function OnTimer(e:TimerEvent):void 
@@ -60,8 +70,9 @@ package com.objects.spaceobjects
 		
 		public function DestroyShell() : void
 		{
-			_lifeTimer.stop();
 			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
+			_lifeTimer.stop();
+			_lifeTimer = null;
 			this.Destroy();
 		}
 	}

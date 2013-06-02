@@ -32,6 +32,9 @@
 		
 		private function init() : void
 		{
+			
+			stage.stageWidth = 800;
+			stage.stageHeight = 600;
 			//var uicomp:UIComponent = new UIComponent();
 			//
 			//_app = new App();
