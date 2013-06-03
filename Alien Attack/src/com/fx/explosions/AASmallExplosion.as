@@ -1,29 +1,29 @@
 package com.fx.explosions 
 {
-	import com.fx.particlesystem.Particle;
-	import com.fx.particlesystem.ParticleSystem;
-	import com.universe.Universe;
+	import com.fx.particlesystem.AAParticle;
+	import com.fx.particlesystem.AAParticleSystem;
+	import com.universe.AAUniverse;
 	
 	/**
 	 * ...
 	 * @author Eugene Tkachenko
 	 */
-	public class AASmallExplosion extends AAExplosion 
+	public class AASmallExplosion extends AAExplosionAbstract 
 	{
-		[Embed(source="/lib/explosion_fast_sparcles.png")]
+		[Embed(source="/lib/images/explosions/explosion_fast_sparcles.png")]
 		public var ExplosionFastSparclesView:Class;
 		
-		[Embed(source="/lib/explosion_fire.png")]
+		[Embed(source="/lib/images/explosions/explosion_fire.png")]
 		public var ExplosionFireView:Class;
 		
-		private var _sparcles:ParticleSystem = new ParticleSystem();
-		private var _fires:ParticleSystem = new ParticleSystem();
+		private var _sparcles:AAParticleSystem = new AAParticleSystem();
+		private var _fires:AAParticleSystem = new AAParticleSystem();
 		
-		public function AASmallExplosion(universe:Universe) 
+		public function AASmallExplosion(universe:AAUniverse) 
 		{
 			super(universe);
 			
-			_sparcles = new ParticleSystem(4000);
+			_sparcles = new AAParticleSystem(4000);
 			_sparcles.xRange = 2;
 			_sparcles.yRange = 2;
 			_sparcles.particleStartScale = 1;
@@ -38,7 +38,7 @@ package com.fx.explosions
 			_universe.addChild(_sparcles);
 			
 			
-			_fires = new ParticleSystem(4000);
+			_fires = new AAParticleSystem(4000);
 			_fires.xRange = 2;
 			_fires.yRange = 2;
 			_fires.particleStartScale = 0.3;

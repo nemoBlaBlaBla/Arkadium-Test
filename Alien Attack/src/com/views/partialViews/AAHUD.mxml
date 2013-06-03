@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo"
+			   addedToStage="init()"
+			   backgroundAlpha="0"
+			   alpha="0.9">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+		
+	<fx:Script>
+		<![CDATA[
+		
+		import com.utilities.AAGameParameters;
+		import flash.events.Event;
+		import flash.events.TimerEvent;
+		import flash.utils.Timer;
+		import mx.controls.TextInput;
+		import mx.core.UIComponent;
+		import spark.components.Application;
+		import spark.filters.BlurFilter;
+		
+		[Bindable]
+		public var armorValue:Number = 0;
+		
+		[Bindable]
+		public var pointsValue:Number = 0;
+		
+		[Bindable]
+		public var fpsValue:uint = 0;
+		
+		[Bindable]
+		private var _glowFactor:int = 3;
+		
+		private function init() : void
+		{						
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+		}
+		
+		private function OnEnterFrame(e:Event):void 
+		{
+			this.alpha = 1 - Math.random()*0.2;
+			this._glowFactor = 3 + this.alpha;
+			
+			this.fpsValue = AAGameParameters.sharedInstance().fpsCounter.fps;
+		}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/halo";
+		
+		@font-face
+		{
+            src:url("/lib/fonts/saxmono.ttf");
+            fontFamily:instruction;
+            advancedAntiAliasing: true;
+        }
+		
+		.HudTextStyle
+		{
+			fontSize: 20;
+            color: #00FF00;
+			backgroundColor: #000000;
+			backgroundAlpha: 0;
+			fontSharpness: 10;
+			fontAntiAliasType: "advanced";
+			fontFamily: instruction;
+			fontWeight: normal;
+		}
+	</fx:Style>
+	
+	<s:SkinnableContainer>
+		<s:Label name="labelPoints" id="labelPoints" x="10" y="10" styleName="HudTextStyle" text="PTS:"></s:Label>
+		<s:Label name="labelPointsValue" id="labelPointsValue" x="{labelPoints.x + labelPoints.width + 10}" y="10" styleName="HudTextStyle" text="{pointsValue}"></s:Label>
+	
+		<s:Label name="labelArmor" id="labelArmor" x="{this.stage.stageWidth - 150}" y="10" styleName="HudTextStyle" text="ARMOR:"></s:Label>
+		<s:Label name="labelArmorValue" id="labelArmorValue" x="{labelArmor.x + labelArmor.width + 10}" y="10" styleName="HudTextStyle" text="{armorValue}"></s:Label>
+		
+		<s:filters>
+			<s:GlowFilter blurX="{this._glowFactor}" blurY="{this._glowFactor}" quality="1" color="0x00FF00"></s:GlowFilter>
+		</s:filters>
+	</s:SkinnableContainer>
+	
+	<!-- <s:Label name="labelMssl" id="labelMssl" x="{this.stage.stageWidth - 140}" y="{labelArmor.y + labelArmor.height + 10}" styleName="HudTextStyle" text="MSSL:"></s:Label> -->
+	<!-- <s:Label name="labelMsslValue" id="labelMsslValue" x="{labelMssl.x + labelMssl.width + 10}" y="{labelMssl.y}" styleName="HudTextStyle" text="9"></s:Label> -->
+	
+	
+	<s:Label name="labelFps" id="labelFps" x="{this.stage.stageWidth - 140}" y="{this.stage.stageHeight - 50}" styleName="HudTextStyle" text="FPS:"></s:Label>
+	<s:Label name="labelFpsValue" id="labelFpsValue" x="{labelFps.x + labelFps.width + 10}" y="{labelFps.y}" styleName="HudTextStyle" text="{this.fpsValue}"></s:Label>
+	
+	
+	
+</s:Application>

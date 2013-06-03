@@ -9,9 +9,10 @@
     <movie width="800" />
     <movie height="600" />
     <movie version="11" />
-    <movie minorVersion="0" />
+    <movie minorVersion="7" />
     <movie platform="Flash Player" />
     <movie background="#000000" />
+    <movie preferredSDK="Apache Flex 4.9.1 FP11.1 en_US;4.9.1;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -83,7 +84,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="True" />
+    <option showHiddenPaths="False" />
     <option testMovie="Default" />
   </options>
   <!-- Plugin storage -->

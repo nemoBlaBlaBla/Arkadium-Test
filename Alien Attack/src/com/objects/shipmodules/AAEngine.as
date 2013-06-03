@@ -1,7 +1,7 @@
 package com.objects.shipmodules
 {
-	import com.fx.particlesystem.ParticleSystem;
-	import com.objects.spaceobjects.AASpaceShip;
+	import com.fx.particlesystem.AAParticleSystem;
+	import com.objects.spaceobjects.ships.AASpaceShip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -20,8 +20,8 @@ package com.objects.shipmodules
 		private var _maxRotationForce : Number = 0;
 		private var _currentRotationForce : Number = 0;
 		
-		protected var _particleSystem1:ParticleSystem; 
-		protected var _particleSystem2:ParticleSystem; 
+		protected var _particleSystem1:AAParticleSystem; 
+		protected var _particleSystem2:AAParticleSystem; 
 		
 		private var _ship:AASpaceShip;
 		
@@ -34,8 +34,8 @@ package com.objects.shipmodules
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			//addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
-			//_particleSystem1 = new ParticleSystem(this, 50, 0, 2, 0);
-			//_particleSystem2 = new ParticleSystem(this, 50, 0, 2, 0);
+			//_particleSystem1 = new AAParticleSystem(this, 50, 0, 2, 0);
+			//_particleSystem2 = new AAParticleSystem(this, 50, 0, 2, 0);
 			//
 			//_particleSystem1.x = -6;
 			//_particleSystem1.y = 30;

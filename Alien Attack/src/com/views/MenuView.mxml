@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo"
+			   backgroundAlpha="0"
+			   addedToStage="init()">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+		
+		import mx.core.Application;
+		import com.views.GameView;
+		
+		private function init():void
+		{
+			
+		}
+		
+		private function startGame():void
+		{
+			var gameView:com.views.GameView = new com.views.GameView();
+			(this.parentApplication as Application).addElement(gameView);
+			(this.parentApplication as Application).removeElement(this);
+		}
+		
+		
+		]]>
+	</fx:Script>
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/halo";
+		
+		@font-face
+		{
+            src:url("/lib/fonts/saxmono.ttf");
+            fontFamily:instruction;
+            advancedAntiAliasing: true;
+        }
+		
+		.HudTextStyle
+		{
+			fontSize: 20;
+            color: #00FF00;
+			backgroundColor: #000000;
+			backgroundAlpha: 0;
+			fontSharpness: 10;
+			fontAntiAliasType: "advanced";
+			fontFamily: instruction;
+			fontWeight: normal;
+		}
+	</fx:Style>
+	
+	<s:Label x="100" y="100" text="START" mouseDown="startGame()" styleName="HudTextStyle"></s:Label>
+	
+</s:Application>

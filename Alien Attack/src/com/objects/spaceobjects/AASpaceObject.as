@@ -1,16 +1,11 @@
 package com.objects.spaceobjects
 {
-	import com.universe.Universe;
+	import com.behaviours.AAISpaceObjectBehaviour;
+	import com.universe.AAUniverse;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.TimerEvent;
 	import flash.geom.Point;
-	import flash.text.TextField;
-	import flash.utils.Timer;
-	import mx.controls.Label;
-	import utilities.GlobalTimer;
-	import com.objects.spaceobjects.AAISpaceObjectDelegate;
 	
 	/**
 	 * ...
@@ -18,11 +13,9 @@ package com.objects.spaceobjects
 	 */
 	public class AASpaceObject extends Sprite
 	{
-		//*******************************************
-		private var _universe:Universe;
+		private var _universe:AAUniverse;
 		
 		private var _mass:Number = 0;
-		
 		private var _force : Point = new Point(0, 0);
 		private var _acceleration : Point = new Point(0, 0);
 		private var _velocity : Point = new Point(0, 0);
@@ -36,28 +29,19 @@ package com.objects.spaceobjects
 		private var _angularResistanceForce : Number = 0;
 		
 		private var _view : Bitmap = new Bitmap();
+		private var _behaviour:AAISpaceObjectBehaviour;
 		
-		private var _delegate:AAISpaceObjectDelegate;
-		//*********************************************
-		
-		
-		public function AASpaceObject(universe:Universe)
+		public function AASpaceObject(universe:AAUniverse)
 		{
 			_universe = universe;
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 		}
 		
-		//private function OnAddingToStage(e:Event):void 
-		//{
-			//removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
-			//this.DrawBounds();
-		//}
-		
 		public function Destroy() : void
 		{
-			if (delegate)
+			if (behaviour)
 			{
-				delegate.OnDestroy(this);
+				behaviour.OnDestroy(this);
 			}
 			
 			if (parent)
@@ -71,9 +55,9 @@ package com.objects.spaceobjects
 		
 		private function OnEnterFrame(e:Event):void 
 		{
-			if (delegate)
+			if (behaviour)
 			{
-				delegate.Update(this);
+				behaviour.Update(this);
 			}
 			
 			this.PositionUpdate();
@@ -84,9 +68,9 @@ package com.objects.spaceobjects
 				{
 					if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
 					{
-						if (delegate)
+						if (behaviour)
 						{
-							delegate.OnHit(this, universe.getChildAt(i) as AASpaceObject);
+							behaviour.OnHit(this, universe.getChildAt(i) as AASpaceObject);
 						}
 					}
 				}
@@ -251,19 +235,19 @@ package com.objects.spaceobjects
 			_view = value;
 		}
 		
-		public function get universe():Universe 
+		public function get universe():AAUniverse 
 		{
 			return _universe;
 		}
 		
-		public function get delegate():AAISpaceObjectDelegate 
+		public function get behaviour():AAISpaceObjectBehaviour 
 		{
-			return _delegate;
+			return _behaviour;
 		}
 		
-		public function set delegate(value:AAISpaceObjectDelegate):void 
+		public function set behaviour(value:AAISpaceObjectBehaviour):void 
 		{
-			_delegate = value;
+			_behaviour = value;
 		}
 //}
 	}

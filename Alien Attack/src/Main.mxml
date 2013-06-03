@@ -23,45 +23,17 @@
 		import mx.controls.TextInput;
 		import mx.core.UIComponent;
 		import mx.states.AddChild;
-		import views.GameView;
-		import views.MenuView;
-		
-		private var _app:App;
+		import com.views.GameView;
+		import com.views.MenuView;
 		
 		public var myText:String = "Mytext";
 		
 		private function init() : void
-		{
-			
-			stage.stageWidth = 800;
-			stage.stageHeight = 600;
-			//var uicomp:UIComponent = new UIComponent();
-			//
-			//_app = new App();
-			//stage.addChild(_app);
-			//
-			//uicomp.addChild(_app);
-			//addElement(uicomp);
-			
-			
-			
-			//var mh:views.partialViews.MyHUD = new MyHUD();
-			//mh.x = 100;
-			//mh.y = 100;
-			//this.addElement(mh);
-			
-			//var game:views.GameView = new views.GameView();
-			//this.addElement(game);
-			
-			var menuView:views.MenuView = new views.MenuView();
+		{			
+			var menuView:com.views.MenuView = new com.views.MenuView();
 			this.addElement(menuView);
 		}
-		
-		//public static function SharedInstance():Main
-		//{
-			//return this;
-		//}
-		
+
 		]]>
 	</fx:Script>
 	

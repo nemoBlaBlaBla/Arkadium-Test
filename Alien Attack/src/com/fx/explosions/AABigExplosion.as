@@ -1,39 +1,39 @@
 package com.fx.explosions 
 {
-	import com.universe.Universe;
+	import com.universe.AAUniverse;
 	import flash.display.Sprite;
-	import com.fx.particlesystem.ParticleSystem;
+	import com.fx.particlesystem.AAParticleSystem;
 	
 	/**
 	 * ...
 	 * @author Eugene Tkachenko
 	 */
-	public class AABigExplosion extends AAExplosion 
+	public class AABigExplosion extends AAExplosionAbstract 
 	{
-		[Embed(source="/lib/blast_wave.png")]
+		[Embed(source="/lib/images/explosions/blast_wave.png")]
 		public var BlastWaveView:Class;
 		
-		[Embed(source="/lib/explosion_fire.png")]
+		[Embed(source="/lib/images/explosions/explosion_fire.png")]
 		public var ExplosionFireView:Class;
 		
-		[Embed(source="/lib/explosion_fast_sparcles.png")]
+		[Embed(source="/lib/images/explosions/explosion_fast_sparcles.png")]
 		public var ExplosionFastSparclesView:Class;
 		
-		[Embed(source="/lib/explosion_slow_sparcles.png")]
+		[Embed(source="/lib/images/explosions/explosion_slow_sparcles.png")]
 		public var ExplosionSlowSparclesView:Class;
 		
 		
-		private var _fastSparcles1:ParticleSystem;
-		private var _fastSparcles2:ParticleSystem;
-		private var _explosionFires:ParticleSystem;
-		private var _slowSparcles:ParticleSystem;
-		private var _blastWave:ParticleSystem;
+		private var _fastSparcles1:AAParticleSystem;
+		private var _fastSparcles2:AAParticleSystem;
+		private var _explosionFires:AAParticleSystem;
+		private var _slowSparcles:AAParticleSystem;
+		private var _blastWave:AAParticleSystem;
 		
-		public function AABigExplosion(universe:Universe) 
+		public function AABigExplosion(universe:AAUniverse) 
 		{
 			super(universe);
 			
-			_fastSparcles1 = new ParticleSystem();
+			_fastSparcles1 = new AAParticleSystem();
 			_fastSparcles1.xRange = 20;
 			_fastSparcles1.yRange = 20;
 			_fastSparcles1.particleStartScale = 1;
@@ -48,7 +48,7 @@ package com.fx.explosions
 			_universe.addChild(_fastSparcles1);
 			
 			
-			_fastSparcles2 = new ParticleSystem();
+			_fastSparcles2 = new AAParticleSystem();
 			_fastSparcles2.xRange = 20;
 			_fastSparcles2.yRange = 20;
 			_fastSparcles2.particleStartScale = 1;
@@ -63,7 +63,7 @@ package com.fx.explosions
 			_universe.addChild(_fastSparcles2);
 			
 			
-			_explosionFires = new ParticleSystem();
+			_explosionFires = new AAParticleSystem();
 			_explosionFires.xRange = 50;
 			_explosionFires.yRange = 50;
 			_explosionFires.particleStartScale = 1;
@@ -80,7 +80,7 @@ package com.fx.explosions
 			_universe.addChild(_explosionFires);
 			
 			
-			_slowSparcles = new ParticleSystem();
+			_slowSparcles = new AAParticleSystem();
 			_slowSparcles.xRange = 70;
 			_slowSparcles.yRange = 70;
 			_slowSparcles.particleStartScale = 1;
@@ -97,7 +97,7 @@ package com.fx.explosions
 			_universe.addChild(_slowSparcles);
 			
 			
-			_blastWave = new ParticleSystem();
+			_blastWave = new AAParticleSystem();
 			_blastWave.xRange = 0;
 			_blastWave.yRange = 0;
 			_blastWave.particleStartScale = 0.1;
