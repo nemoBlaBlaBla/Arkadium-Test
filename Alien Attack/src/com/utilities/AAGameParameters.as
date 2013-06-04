@@ -16,7 +16,7 @@ package com.utilities
 		
 		private var _fpsCounter:AAFPSCounter;
 		
-		public function AAGameParameters()
+		public function AAGameParameters(privateClass:PrivateClass)
 		{
 			_fpsCounter = new AAFPSCounter();
 		}
@@ -25,7 +25,7 @@ package com.utilities
 		{
 			if (!_sharedInstance)
 			{
-				_sharedInstance = new AAGameParameters();
+				_sharedInstance = new AAGameParameters(new PrivateClass());
 			}
 			return _sharedInstance;
 		}

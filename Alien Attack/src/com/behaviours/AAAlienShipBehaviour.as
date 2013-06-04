@@ -98,6 +98,7 @@ package com.behaviours
 				explosion.Explode();
 				explosion = null;
 			}
+			ship = null;
 		}
 		
 	}

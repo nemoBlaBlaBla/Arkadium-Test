@@ -1,5 +1,6 @@
 package com.behaviours
 {
+	import com.objects.spaceobjects.bullets.AAHeavyBlasterShell;
 	import com.objects.spaceobjects.ships.AAAlienShip;
 	import com.objects.spaceobjects.bullets.AABulletAbstract;
 	import com.behaviours.AAISpaceObjectBehaviour;
@@ -98,7 +99,7 @@ package com.behaviours
 					_ship.Destroy();
 				}
 			}
-			else if (hittedObject is AABlasterShell)
+			else if ((hittedObject is AABlasterShell) || (hittedObject is AAHeavyBlasterShell))
 			{
 				_ship.health -= (hittedObject as AABulletAbstract).damage;
 				

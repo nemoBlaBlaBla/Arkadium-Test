@@ -55,12 +55,12 @@ package com.fx.particlesystem
 			_yRange = yRange;
 			
 			_timer = new Timer(_emissionDelayInMS);
-			_timer.start();
 		}
 		
 		public function Start():void
 		{
 			_timer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			_timer.start();
 			this.EmitParticles();
 		}
 		

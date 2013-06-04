@@ -9,7 +9,7 @@ package com.objects.spaceobjects.bullets
 	 */
 	public class AABlasterShell extends AABulletAbstract 
 	{
-		[Embed(source="../../../../lib/images/bullets/blaster_shell.png")]
+		[Embed(source="/lib/images/bullets/blaster_shell.png")]
 		private var ShellView:Class;
 		
 		public function AABlasterShell(universe:AAUniverse, angle:Number=0) 

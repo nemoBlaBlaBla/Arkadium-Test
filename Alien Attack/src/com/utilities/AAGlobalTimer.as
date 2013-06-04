@@ -19,7 +19,7 @@ package com.utilities
 			this.start();
 		}
 		
-		public static function GetInstance():AAGlobalTimer
+		public static function SharedInstance():AAGlobalTimer
 		{
 			if (!_instance)
 			{

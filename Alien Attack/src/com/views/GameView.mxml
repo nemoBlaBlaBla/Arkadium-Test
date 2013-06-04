@@ -85,7 +85,16 @@
 			var spawnCount:int = 1;
 			for (var i:int = 0; i < spawnCount; i++)
 			{
-				var alien:AASpaceShip = new AAAlienShip(_universe);
+				var alien:AASpaceShip;
+				if (Math.random() * (AAGameParameters.sharedInstance().playerScore) < 1000)
+				{
+					alien = new AAAlienShip(_universe);
+				}
+				else
+				{
+					alien = new AAAlienAttacker(_universe);
+				}
+				
 				alien.rotation = 180;
 				alien.y = -200 + (Math.random() * 100);
 				alien.x = Math.random() * stage.stageWidth;

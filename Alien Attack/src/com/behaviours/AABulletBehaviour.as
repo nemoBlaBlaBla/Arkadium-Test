@@ -30,11 +30,12 @@ package com.behaviours
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			var explosion:AASmallExplosion  = new AASmallExplosion(currentObject.universe);
+			var explosion:AASmallExplosion = new AASmallExplosion(currentObject.universe);
 			explosion.x = currentObject.x;
 			explosion.y = currentObject.y;
 			explosion.Explode();
 			explosion = null;
+			currentObject = null;
 		}
 		
 	}

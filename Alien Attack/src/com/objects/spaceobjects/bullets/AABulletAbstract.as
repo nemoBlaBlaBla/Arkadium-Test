@@ -3,6 +3,7 @@ package com.objects.spaceobjects.bullets
 	import com.behaviours.AABulletBehaviour;
 	import com.objects.spaceobjects.AASpaceObject;
 	import com.universe.AAUniverse;
+	import com.utilities.AAGlobalTimer;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
@@ -42,14 +43,17 @@ package com.objects.spaceobjects.bullets
 			this.view.y = -view.height / 2;
 			this.addChild(this.view);
 			
-			_lifeTimer = new Timer(_lifeTimeInMS, 1);
+			_lifeTimer = AAGlobalTimer.SharedInstance();
 			_lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
-			_lifeTimer.start();
 		}
 		
 		private function OnTimer(e:TimerEvent):void 
-		{
-			this.DestroyShell();
+		{			
+			this._lifeTimeInMS -= this._lifeTimer.delay;
+			if (_lifeTimeInMS < 0)
+			{
+				this.DestroyShell();
+			}
 		}
 		
 		public function get damage():Number 
@@ -65,7 +69,6 @@ package com.objects.spaceobjects.bullets
 		public function DestroyShell() : void
 		{
 			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
-			_lifeTimer.stop();
 			_lifeTimer = null;
 			this.Destroy();
 		}

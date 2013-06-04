@@ -52,7 +52,7 @@ package com.fx.particlesystem
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
-			_particleTimer = new Timer(30, _numberOfIterations);
+			_particleTimer = AAGlobalTimer.SharedInstance();
 			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
 			
 			this.particleBitmapView.x = -this.particleBitmapView.width / 2;
@@ -67,7 +67,7 @@ package com.fx.particlesystem
 			this.scaleX = this._particleStartScale;
 			this.scaleY = this._particleStartScale;
 			
-			_particleTimer.start();
+			//_particleTimer.start();
 			this.addChild(this.particleBitmapView);
 		}
 		
@@ -91,7 +91,7 @@ package com.fx.particlesystem
 		private function Destroy() : void
 		{
 			_particleTimer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
-			_particleTimer.stop();
+			//_particleTimer.stop();
 			_particleTimer = null;
 			if (this.parent)
 			{
