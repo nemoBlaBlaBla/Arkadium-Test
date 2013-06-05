@@ -39,6 +39,8 @@ package com.objects.spaceobjects
 		
 		public function Destroy() : void
 		{
+			
+			
 			if (behaviour)
 			{
 				behaviour.OnDestroy(this);
@@ -48,6 +50,7 @@ package com.objects.spaceobjects
 			{
 				parent.removeChild(this);
 			}
+			
 			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			view.bitmapData.dispose();
 			view = null;

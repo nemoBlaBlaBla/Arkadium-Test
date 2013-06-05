@@ -4,6 +4,10 @@
                xmlns:mx="library://ns.adobe.com/flex/halo"
 			   backgroundAlpha="0"
 			   addedToStage="init()">
+			   
+	<fx:Style source="/lib/styles/menu_style.css"/>
+
+	
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -20,7 +24,7 @@
 			
 		}
 		
-		private function startGame():void
+		private function StartGame():void
 		{
 			var gameView:com.views.GameView = new com.views.GameView();
 			(this.parentApplication as Application).addElement(gameView);
@@ -31,30 +35,6 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/halo";
-		
-		@font-face
-		{
-            src:url("/lib/fonts/saxmono.ttf");
-            fontFamily:instruction;
-            advancedAntiAliasing: true;
-        }
-		
-		.HudTextStyle
-		{
-			fontSize: 20;
-            color: #00FF00;
-			backgroundColor: #000000;
-			backgroundAlpha: 0;
-			fontSharpness: 10;
-			fontAntiAliasType: "advanced";
-			fontFamily: instruction;
-			fontWeight: normal;
-		}
-	</fx:Style>
-	
-	<s:Label x="100" y="100" text="START" mouseDown="startGame()" styleName="HudTextStyle"></s:Label>
+	<s:Button x="100" y="100" label="START" click="StartGame()" styleName="ButtonStyle"></s:Button>
 	
 </s:Application>

@@ -1,18 +1,18 @@
 package com.behaviours
 {
-	import com.objects.spaceobjects.bullets.AAHeavyBlasterShell;
-	import com.objects.spaceobjects.ships.AAAlienShip;
-	import com.objects.spaceobjects.bullets.AABulletAbstract;
 	import com.behaviours.AAISpaceObjectBehaviour;
+	import com.fx.explosions.AABigExplosion;
 	import com.objects.spaceobjects.AASpaceObject;
-	import com.objects.spaceobjects.ships.AASpaceShip;
 	import com.objects.spaceobjects.bullets.AABlasterShell;
+	import com.objects.spaceobjects.bullets.AABulletAbstract;
+	import com.objects.spaceobjects.bullets.AAHeavyBlasterShell;
+	import com.objects.spaceobjects.ships.AASpaceShip;
+	import com.utilities.AAGameParameters;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
-	import com.utilities.AAGameParameters;
 	
 	/**
 	 * ...
@@ -91,13 +91,9 @@ package com.behaviours
 		
 		public function OnHit(currentObject:AASpaceObject, hittedObject:AASpaceObject):void 
 		{
-			if (hittedObject is AAAlienShip)
+			if (hittedObject is AASpaceShip)
 			{
 				(currentObject as AASpaceShip).health -= 25;
-				if ((currentObject as AASpaceShip).health < 0)
-				{
-					_ship.Destroy();
-				}
 			}
 			else if ((hittedObject is AABlasterShell) || (hittedObject is AAHeavyBlasterShell))
 			{
@@ -105,15 +101,33 @@ package com.behaviours
 				
 				(hittedObject as AABulletAbstract).DestroyShell();
 			}
+			
+			if (_ship.health <= 0)
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+				stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+				stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
+				_ship.Destroy();
+			}
 		}
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
-			stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
-			stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
 			_ship.Fire(false);
+			
+			var ship:AASpaceShip = currentObject as AASpaceShip;
+			ship.engine.Destroy();
+			ship.Fire(false);
+			if (currentObject.stage && (currentObject.y < currentObject.stage.stageHeight + 100))
+			{
+				var explosion:AABigExplosion = new AABigExplosion(currentObject.universe);
+				explosion.x = currentObject.x;
+				explosion.y = currentObject.y;
+				explosion.Explode();
+				explosion = null;
+			}
+			ship = null;
 		}
 		
 		

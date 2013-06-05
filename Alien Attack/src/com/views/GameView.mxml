@@ -65,7 +65,7 @@
 			this.hud.armorValue = _player.health;
 			this.hud.pointsValue = AAGameParameters.sharedInstance().playerScore;
 			
-			if (_player.health < 0)
+			if (_player.health <= 0)
 			{
 				returnToMenu();
 			}
@@ -75,8 +75,8 @@
 		{
 			_spawnTimer.removeEventListener(TimerEvent.TIMER, OnSpawnTimer);
 			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			var menuView:com.views.MenuView = new com.views.MenuView();
-			(this.parentApplication as Application).addElement(menuView);
+			var finishView:com.views.FinishView = new com.views.FinishView();
+			(this.parentApplication as Application).addElement(finishView);
 			(this.parentApplication as Application).removeElement(this);
 		}
 		

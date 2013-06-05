@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo"
+			   backgroundAlpha="0"
+			   addedToStage="init()">
+			   
+	<fx:Style source="/lib/styles/menu_style.css"/>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+		
+		import com.views.MenuView;
+		import com.utilities.AAGameParameters;
+		
+		[Bindable]
+		private var _playerScore:int = 0;
+		
+		private function init():void
+		{
+			_playerScore = AAGameParameters.sharedInstance().playerScore;
+		}
+		
+		private function BackToMenu():void
+		{
+			var menuView:com.views.MenuView = new com.views.MenuView();
+			(this.parentApplication as Application).addElement(menuView);
+			(this.parentApplication as Application).removeElement(this);
+		}
+		
+		]]>
+	</fx:Script>
+	
+	<s:Label id="labelScore" x="100" y="100" text="Your Score:" styleName="HudStyle"></s:Label>
+	<s:Label id="labelScoreValue" x="{this.labelScore.x + this.labelScore.width + 10}" y="100" text="{this._playerScore}" styleName="HudStyle"></s:Label>
+	
+	<s:Button id="buttonBackToMenu" label="Back to Menu" x="100" y="{this.stage.stageHeight - 100}" click="BackToMenu()" styleName="ButtonStyle"></s:Button>
+</s:Application>
