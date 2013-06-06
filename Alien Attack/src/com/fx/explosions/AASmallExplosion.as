@@ -3,6 +3,8 @@ package com.fx.explosions
 	import com.fx.particlesystem.AAParticle;
 	import com.fx.particlesystem.AAParticleSystem;
 	import com.universe.AAUniverse;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	
 	/**
 	 * ...
@@ -16,12 +18,17 @@ package com.fx.explosions
 		[Embed(source="/lib/images/explosions/explosion_fire.png")]
 		public var ExplosionFireView:Class;
 		
+		[Embed(source="/lib/sounds/explosions/small_explosion_sound.mp3")]
+		private var SoundClass:Class;
+		
 		private var _sparcles:AAParticleSystem = new AAParticleSystem();
 		private var _fires:AAParticleSystem = new AAParticleSystem();
 		
 		public function AASmallExplosion(universe:AAUniverse) 
 		{
 			super(universe);
+			
+			this.explosionSound = new SoundClass() as Sound;
 			
 			_sparcles = new AAParticleSystem(4000);
 			_sparcles.xRange = 2;
@@ -71,6 +78,8 @@ package com.fx.explosions
 			
 			_sparcles = null;
 			_fires = null;
+			
+			super.Explode();
 			
 		}
 		

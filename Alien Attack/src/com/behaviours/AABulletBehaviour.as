@@ -30,11 +30,18 @@ package com.behaviours
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			var explosion:AASmallExplosion = new AASmallExplosion(currentObject.universe);
-			explosion.x = currentObject.x;
-			explosion.y = currentObject.y;
-			explosion.Explode();
-			explosion = null;
+			if (currentObject.stage &&
+				currentObject.x > 0 && 
+				currentObject.x < currentObject.stage.stageWidth &&
+				currentObject.y > 0 &&
+				currentObject.y < currentObject.stage.stageHeight)
+			{
+				var explosion:AASmallExplosion = new AASmallExplosion(currentObject.universe);
+				explosion.x = currentObject.x;
+				explosion.y = currentObject.y;
+				explosion.Explode();
+				explosion = null;
+			}
 			currentObject = null;
 		}
 		

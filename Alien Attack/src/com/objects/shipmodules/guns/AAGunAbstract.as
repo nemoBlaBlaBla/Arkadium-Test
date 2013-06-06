@@ -3,6 +3,7 @@ package com.objects.shipmodules.guns
 	import com.objects.spaceobjects.bullets.AABulletAbstract;
 	import com.objects.spaceobjects.ships.AASpaceShip;
 	import flash.events.TimerEvent;
+	import flash.media.Sound;
 	import flash.utils.Timer;
 	/**
 	 * ...
@@ -14,6 +15,7 @@ package com.objects.shipmodules.guns
 		private var _ship : AASpaceShip;
 		protected var _spreading : Number = 5;
 		protected var _shellType:Class = AABulletAbstract;
+		private var _shotSound:Sound;
 		
 		private var _fireTimer:Timer;
 		
@@ -46,12 +48,26 @@ package com.objects.shipmodules.guns
 		
 		public function SingleShot() : void
 		{
+			if (this.shotSound)
+			{
+				this.shotSound.play();
+			}
 			var shell:AABulletAbstract = new _shellType(_ship.universe, _ship.rotation + ((Math.random() * _spreading) - _spreading / 2));
 			
 			shell.x = _ship.x - (Math.sin((_ship.rotation * Math.PI) / 180) * - 70);
 			shell.y = _ship.y + (Math.cos((_ship.rotation * Math.PI) / 180) * - 70);
 			
 			_ship.universe.addChild(shell);
+		}
+		
+		public function get shotSound():Sound 
+		{
+			return _shotSound;
+		}
+		
+		public function set shotSound(value:Sound):void 
+		{
+			_shotSound = value;
 		}
 	}
 }

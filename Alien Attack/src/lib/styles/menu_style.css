@@ -10,7 +10,10 @@
 
 .ButtonStyle
 {
-	color: #000000;
+	color: #00FF00;
+	chromeColor: #000000;
+	fontFamily: instruction;
+	fontSize: 20;
 }
 
 .HudStyle
