@@ -27,9 +27,9 @@ package com.objects.spaceobjects.ships
 			this.addChild(this.engine);
 			
 			this.view = new ShipView();
-			view.x = -view.width / 2;
-			view.y = -view.height / 2;
-			this.addChild(view);
+			//view.x = -view.width / 2;
+			//view.y = -view.height / 2;
+			//this.addChild(view);
 			
 			this.gun = new AAHeavyBlaster(this);
 			

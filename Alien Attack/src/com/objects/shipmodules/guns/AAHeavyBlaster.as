@@ -14,7 +14,7 @@ package com.objects.shipmodules.guns
 			super(ship);
 			
 			_spreading = 7;
-			_fireRate = 1;
+			_fireRate = 2;
 			_shellType = AAHeavyBlasterShell;
 		}
 		

@@ -3,8 +3,13 @@ package com.behaviours
 	import com.behaviours.AAISpaceObjectBehaviour;
 	import com.fx.explosions.AABigExplosion;
 	import com.objects.spaceobjects.AASpaceObject;
+	import com.objects.spaceobjects.bonuses.AABonusAbstract;
+	import com.objects.spaceobjects.bonuses.AABonusArmor;
+	import com.objects.spaceobjects.bonuses.AABonusBlaster;
+	import com.objects.spaceobjects.bonuses.AABonusHeavyBlaster;
 	import com.objects.spaceobjects.bullets.AABulletAbstract;
 	import com.objects.spaceobjects.bullets.AAGunBullet;
+	import com.objects.spaceobjects.ships.AAAlienShip;
 	import com.objects.spaceobjects.ships.AAPlayerShip;
 	import com.objects.spaceobjects.ships.AASpaceShip;
 	import flash.display.Sprite;
@@ -18,6 +23,7 @@ package com.behaviours
 	 */
 	public class AAAlienShipBehaviour extends Sprite implements AAISpaceObjectBehaviour 
 	{
+		public const TAG:String = "alien";
 		
 		public function AAAlienShipBehaviour() 
 		{
@@ -66,7 +72,7 @@ package com.behaviours
 		public function OnHit(currentObject:AASpaceObject, hittedObject:AASpaceObject):void 
 		{
 			var ship:AASpaceShip = currentObject as AASpaceShip;
-			if (hittedObject is AAGunBullet)
+			if (hittedObject is AABulletAbstract && ((hittedObject as AABulletAbstract).tag == "player"))
 			{
 				ship.health -= (hittedObject as AABulletAbstract).damage;
 				
@@ -90,6 +96,31 @@ package com.behaviours
 			var ship:AASpaceShip = currentObject as AASpaceShip;
 			ship.engine.Destroy();
 			ship.Fire(false);
+			
+			var random:int = Math.random() * 1000;
+			if (random > 0 && random <= 200)
+			{
+				var bonus:AABonusAbstract;
+				if (random < 100)
+				{
+					if (currentObject is AAAlienShip)
+					{
+						bonus = new AABonusBlaster(currentObject.universe);
+					}
+					else
+					{
+						bonus = new AABonusHeavyBlaster(currentObject.universe);
+					}
+				}
+				else
+				{
+					bonus = new AABonusArmor(currentObject.universe);
+				}
+				bonus.x = currentObject.x;
+				bonus.y = currentObject.y;
+				currentObject.universe.addChild(bonus);
+			}
+			
 			if (currentObject.stage && (currentObject.y < currentObject.stage.stageHeight + 100))
 			{
 				var explosion:AABigExplosion = new AABigExplosion(currentObject.universe);
@@ -98,6 +129,7 @@ package com.behaviours
 				explosion.Explode();
 				explosion = null;
 			}
+			
 			ship = null;
 		}
 		

@@ -19,6 +19,7 @@ package com.objects.spaceobjects.bullets
 		protected var _lifeTimeInMS : Number = 750;
 		private var _lifeTimer:Timer;
 		protected var _startVelocity : Number = 0;
+		protected var _tag:String;
 		
 		[Embed(source="../../../../lib/images/bullets/blaster_shell.png")]
 		private var ShellView:Class;
@@ -39,9 +40,9 @@ package com.objects.spaceobjects.bullets
 			
 			this.mass = 0;
 			this.velocity = new Point(_startVelocity * Math.sin((this.rotation * Math.PI) / 180), -_startVelocity * Math.cos((this.rotation * Math.PI) / 180));
-			this.view.x = -view.width / 2;
-			this.view.y = -view.height / 2;
-			this.addChild(this.view);
+			//this.view.x = -view.width / 2;
+			//this.view.y = -view.height / 2;
+			//this.addChild(this.view);
 			
 			_lifeTimer = AAGlobalTimer.SharedInstance();
 			_lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
@@ -56,6 +57,8 @@ package com.objects.spaceobjects.bullets
 			}
 		}
 		
+		
+//{ GETTERS AND SETTERS
 		public function get damage():Number 
 		{
 			return _damage;
@@ -66,6 +69,16 @@ package com.objects.spaceobjects.bullets
 			_damage = value;
 		}
 		
+		public function get tag():String 
+		{
+			return _tag;
+		}
+		
+		public function set tag(value:String):void 
+		{
+			_tag = value;
+		}
+		
 		public function DestroyShell() : void
 		{
 			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
@@ -73,4 +86,5 @@ package com.objects.spaceobjects.bullets
 			this.Destroy();
 		}
 	}
+//}
 }

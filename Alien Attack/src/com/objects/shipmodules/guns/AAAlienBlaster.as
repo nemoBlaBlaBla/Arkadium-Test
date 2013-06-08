@@ -16,7 +16,7 @@ package com.objects.shipmodules.guns
 			super(ship);
 			
 			_spreading = 5;
-			_fireRate = 2;
+			_fireRate = 4;
 			_shellType = AABlasterShell;
 		}
 		

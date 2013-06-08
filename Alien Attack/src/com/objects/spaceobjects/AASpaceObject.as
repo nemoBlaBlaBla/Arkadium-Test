@@ -35,6 +35,18 @@ package com.objects.spaceobjects
 		{
 			_universe = universe;
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+		}
+		
+		private function OnAddingToStage(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			if (this.view)
+			{
+				this.view.x = -view.width / 2;
+				this.view.y = -view.height / 2;
+				this.addChild(view);
+			}
 		}
 		
 		public function Destroy() : void

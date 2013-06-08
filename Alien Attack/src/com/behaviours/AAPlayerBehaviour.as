@@ -21,6 +21,8 @@ package com.behaviours
 	public class AAPlayerBehaviour extends Sprite implements AAISpaceObjectBehaviour
 	{
 		
+		public const TAG:String = "player";
+		
 		private var _ship:AASpaceShip = null;
 		
 		public function AAPlayerBehaviour(ship:AASpaceShip)
@@ -95,7 +97,7 @@ package com.behaviours
 			{
 				(currentObject as AASpaceShip).health -= 25;
 			}
-			else if ((hittedObject is AABlasterShell) || (hittedObject is AAHeavyBlasterShell))
+			else if (hittedObject is AABulletAbstract && ((hittedObject as AABulletAbstract).tag == "alien"))
 			{
 				_ship.health -= (hittedObject as AABulletAbstract).damage;
 				
