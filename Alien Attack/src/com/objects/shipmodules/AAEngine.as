@@ -32,34 +32,16 @@ package com.objects.shipmodules
 			_maxRotationForce = maxRotationForce;
 			
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			//addEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
-			
-			//_particleSystem1 = new AAParticleSystem(this, 50, 0, 2, 0);
-			//_particleSystem2 = new AAParticleSystem(this, 50, 0, 2, 0);
-			//
-			//_particleSystem1.x = -6;
-			//_particleSystem1.y = 30;
-			//
-			//_particleSystem2.x = 7;
-			//_particleSystem2.y = 30;
 		}
 		
 //{ EVENT HANDLERS
-		//private function onAddingToStage(e:Event):void 
-		//{
-			//removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
-			//this.addChild(_particleSystem1);
-			//this.addChild(_particleSystem2);
-			//_particleSystem1.Start();
-			//_particleSystem2.Start();
-		//}
+
 		
 		
 		private function OnEnterFrame(e:Event):void
 		{
 			_ship.force = new Point(_ship.thrustForceVector.x * _currentThrustForce, _ship.thrustForceVector.y * currentThrustForce);
 			_ship.angularForce = _ship.rotationForceFactor * _currentRotationForce;
-			//_ship.angularForce * this.currentRotationForce;
 		}
 //}
 		

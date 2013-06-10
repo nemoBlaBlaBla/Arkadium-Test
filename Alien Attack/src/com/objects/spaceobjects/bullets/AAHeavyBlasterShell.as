@@ -20,7 +20,6 @@ package com.objects.spaceobjects.bullets
 			this.damage = 20;
 			this.view = new ShellView();
 		}
-		
 	}
 
 }

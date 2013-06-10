@@ -35,6 +35,9 @@
 		public var fpsValue:uint = 0;
 		
 		[Bindable]
+		public var timeToFinishValue:Number = 0;
+		
+		[Bindable]
 		private var _glowFactor:int = 3;
 		
 		private function init() : void
@@ -56,6 +59,11 @@
 	<s:SkinnableContainer>
 		<s:Label name="labelPoints" id="labelPoints" x="10" y="10" styleName="HudTextStyle" text="PTS:"></s:Label>
 		<s:Label name="labelPointsValue" id="labelPointsValue" x="{labelPoints.x + labelPoints.width + 10}" y="10" styleName="HudTextStyle" text="{pointsValue}"></s:Label>
+		
+		
+		<s:Label id="labelTime" x="10" y="35" styleName="HudTextStyle" text="TIME:"></s:Label>
+		<s:Label id="labeltemeValue" x="{labelTime.x + labelTime.width + 10}" y="35" styleName="HudTextStyle" text="{timeToFinishValue.toFixed(2)}"></s:Label>
+		
 	
 		<s:Label name="labelArmor" id="labelArmor" x="{this.stage.stageWidth - 150}" y="10" styleName="HudTextStyle" text="ARMOR:"></s:Label>
 		<s:Label name="labelArmorValue" id="labelArmorValue" x="{labelArmor.x + labelArmor.width + 10}" y="10" styleName="HudTextStyle" text="{armorValue}"></s:Label>

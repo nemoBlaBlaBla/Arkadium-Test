@@ -21,7 +21,7 @@ package com.behaviours
 		public function Update(currentObject:AASpaceObject):void 
 		{
 			currentObject.velocity = new Point(0, 3);
-			if (currentObject.y > currentObject.stage.stageHeight)
+			if (currentObject.stage && currentObject.y > currentObject.stage.stageHeight)
 			{
 				(currentObject as AABonusAbstract).Destroy();
 			}

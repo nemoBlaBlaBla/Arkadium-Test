@@ -27,7 +27,7 @@ package com.objects.spaceobjects.bullets
 		public function AABulletAbstract(universe:AAUniverse,  angle:Number = 0) 
 		{
 			super(universe);
-			this.behaviour = new AABulletBehaviour();
+			this.behaviour = AABulletBehaviour.SharedInstance();
 			
 			this.rotation = angle;
 			
@@ -40,9 +40,6 @@ package com.objects.spaceobjects.bullets
 			
 			this.mass = 0;
 			this.velocity = new Point(_startVelocity * Math.sin((this.rotation * Math.PI) / 180), -_startVelocity * Math.cos((this.rotation * Math.PI) / 180));
-			//this.view.x = -view.width / 2;
-			//this.view.y = -view.height / 2;
-			//this.addChild(this.view);
 			
 			_lifeTimer = AAGlobalTimer.SharedInstance();
 			_lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
@@ -55,6 +52,13 @@ package com.objects.spaceobjects.bullets
 			{
 				this.DestroyShell();
 			}
+		}
+		
+		public function DestroyShell() : void
+		{
+			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
+			_lifeTimer = null;
+			this.Destroy();
 		}
 		
 		
@@ -77,13 +81,6 @@ package com.objects.spaceobjects.bullets
 		public function set tag(value:String):void 
 		{
 			_tag = value;
-		}
-		
-		public function DestroyShell() : void
-		{
-			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
-			_lifeTimer = null;
-			this.Destroy();
 		}
 	}
 //}

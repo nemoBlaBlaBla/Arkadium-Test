@@ -74,6 +74,7 @@ package com.objects.shipmodules.guns
 		{
 			_ship = null;
 			_fireTimer.stop();
+			_fireTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
 			_fireTimer = null;
 		}
 		

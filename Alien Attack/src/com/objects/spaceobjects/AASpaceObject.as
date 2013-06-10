@@ -34,13 +34,14 @@ package com.objects.spaceobjects
 		public function AASpaceObject(universe:AAUniverse)
 		{
 			_universe = universe;
-			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			
 			this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 		}
 		
 		private function OnAddingToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			if (this.view)
 			{
 				this.view.x = -view.width / 2;
@@ -51,12 +52,11 @@ package com.objects.spaceobjects
 		
 		public function Destroy() : void
 		{
-			
-			
 			if (behaviour)
 			{
 				behaviour.OnDestroy(this);
 			}
+			this.behaviour = null;
 			
 			if (parent)
 			{
@@ -79,7 +79,7 @@ package com.objects.spaceobjects
 			
 			for (var i:int = 0; i < universe.numChildren; i++) 
 			{
-				try 
+				if(parent)
 				{
 					if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
 					{
@@ -89,15 +89,14 @@ package com.objects.spaceobjects
 						}
 					}
 				}
-				catch (err:Error)
-				{
-					trace(err.name);
-					trace(err.message);
-					trace(err.getStackTrace());
-				}
+				//catch (err:Error)
+				//{
+					//trace(err.name);
+					//trace(err.message);
+					//trace(err.getStackTrace());
+				//}
 			}
 		}
-		
 		
 		private function UpdateValues():void
 		{

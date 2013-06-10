@@ -11,9 +11,20 @@ package com.behaviours
 	public class AABulletBehaviour implements AAISpaceObjectBehaviour 
 	{
 		
-		public function AABulletBehaviour() 
+		private static var _instance:AABulletBehaviour;
+		
+		public function AABulletBehaviour(privateClass:PrivateClass) 
 		{
 			
+		}
+		
+		public static function SharedInstance():AABulletBehaviour
+		{
+			if (!_instance)
+			{
+				_instance = new AABulletBehaviour(new PrivateClass());
+			}
+			return _instance;
 		}
 		
 		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectBehaviour */
@@ -47,4 +58,12 @@ package com.behaviours
 		
 	}
 
+}
+
+class PrivateClass 
+{
+	public function PrivateClass()
+	{
+		
+	}
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<levels>
+		<level>
+			<name>Level1</name>
+			<time_to_finish>120</time_to_finish>
+			<enemy_spawn_delay>2</enemy_spawn_delay>
+			<player_armor>100</player_armor>
+		</level>
+		
+		<level>
+			<name>Level1</name>
+			<time_to_finish>180</time_to_finish>
+			<enemy_spawn_delay>1.5</enemy_spawn_delay>
+			<player_armor>75</player_armor>
+		</level>
+		
+		<level>
+			<name>Level1</name>
+			<time_to_finish>240</time_to_finish>
+			<enemy_spawn_delay>1.5</enemy_spawn_delay>
+			<player_armor>50</player_armor>
+		</level>
+	</levels>

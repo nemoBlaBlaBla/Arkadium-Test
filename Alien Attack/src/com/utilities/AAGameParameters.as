@@ -1,6 +1,9 @@
 package com.utilities
 {
+	import flash.events.Event;
 	import flash.geom.Point;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	
 	/**
 	 * ...
@@ -19,6 +22,8 @@ package com.utilities
 		public function AAGameParameters(privateClass:PrivateClass)
 		{
 			_fpsCounter = new AAFPSCounter();
+			
+			LoadXMLConfig();
 		}
 		
 		public static function sharedInstance():AAGameParameters
@@ -33,6 +38,28 @@ package com.utilities
 		public function WipeGameParameters():void
 		{
 			playerScore = 0;
+		}
+		
+		
+		
+		//;alsjdfla;jfa;slf
+		private function LoadXMLConfig():void
+		{	
+			var xmlLoader:URLLoader = new URLLoader();
+			xmlLoader.addEventListener(Event.COMPLETE, showXML);
+			xmlLoader.load(new URLRequest("GameConfig.xml"));
+		}
+		
+		private function showXML(e:Event):void 
+		{
+			XML.ignoreWhitespace = true;
+			var levels:XML = new XML(e.target.data);
+			trace(levels.children());
+			
+			//for each(var level:XML in levels)
+			//{
+				//trace(level.children());
+			//}
 		}
 		
 		

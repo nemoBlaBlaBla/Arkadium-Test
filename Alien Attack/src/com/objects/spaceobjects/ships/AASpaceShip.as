@@ -32,10 +32,29 @@ package com.objects.spaceobjects.ships
 			super(universe);
 		}
 		
-		
 		public function Fire(start:Boolean) : void
 		{
-			this.gun.Fire(start);
+			if (this.gun)
+			{
+				this.gun.Fire(start);
+			}
+		}
+		
+		override public function Destroy():void
+		{
+			
+			
+			this.Fire(false);
+			this.gun.Destroy();
+			//this.gun = null;
+			
+			this.engine.StopEngine();
+			this.engine.Destroy();
+			//this.engine = null;
+			
+			super.Destroy();
+			
+			this.behaviour = null;
 		}
 		
 //{ MOVEMENT METHODS
@@ -138,16 +157,6 @@ package com.objects.spaceobjects.ships
 		
 
 //{ PROPERTIES GETTERS AND SETTERS
-		//public function get controller():Controller 
-		//{
-			//return _controller;
-		//}
-		//
-		//public function set controller(value:Controller):void 
-		//{
-			//_controller = value;
-		//}
-		
 		public function get thrustForceVector():Point 
 		{
 			return _thrustForceVector;

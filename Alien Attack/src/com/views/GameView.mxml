@@ -37,14 +37,18 @@
 		private var _spawnDelay:Number = 2000;
 		private var _spawnTimer:Timer;
 		
+		private var _timeToFinish:Number = 60;
+		private var _levelTimer:Timer = new Timer(30, 0);
+		
 		private function init():void 
 		{
 			var universeContainer:UIComponent = new UIComponent();			
 			_universe = new AATestUniverse();
+			
 			_player = new AAPlayerShip(_universe);
 			_player.x = stage.stageWidth / 2;
 			_player.y = stage.stageHeight - 70;
-			//_player.gun = new AAHeavyBlaster(_player);
+			
 			_universe.addChild(_player);
 			
 			universeContainer.addChild(_universe);
@@ -53,36 +57,74 @@
 			AAGameParameters.sharedInstance().WipeGameParameters();
 			
 			_spawnTimer = new Timer(_spawnDelay, 0);
-			_spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
-			_spawnTimer.start();
-			
-			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			
 			com.views.GameView.points = 0;
 			
-			//var b:AABonusArmor = new AABonusArmor(_universe);
-			//b.x = 100;
-			//b.y = 100;
-			//_universe.addChild(b);
 			
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			_spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
+			_levelTimer.addEventListener(TimerEvent.TIMER, OnLevelTimer);
+			
+			StartGame();
 			//Mouse.hide();
+		}
+		
+		private function OnLevelTimer(e:TimerEvent):void 
+		{
+			_timeToFinish -= _levelTimer.delay / 1000;
+			//trace(_timeToFinish.toString());
+		}
+		
+		public function StartGame():void
+		{
+			_spawnTimer.start();
+			_levelTimer.start();
+		}
+		
+		public function StopGame():void
+		{
+			_spawnTimer.stop();
+			_levelTimer.stop();
+		}
+		
+		public function FisnishGame():void
+		{
+			StopGame();
+			ReturnToMenu();
+		}
+		
+		public function LoseGame():void
+		{
+			StopGame();
+			ReturnToMenu();
 		}
 		
 		private function OnEnterFrame(e:Event):void 
 		{
 			this.hud.armorValue = _player.health;
 			this.hud.pointsValue = AAGameParameters.sharedInstance().playerScore;
+			this.hud.timeToFinishValue = this._timeToFinish;
 			
 			if (_player.health <= 0)
 			{
-				returnToMenu();
+				LoseGame();
+			}
+			else if (_timeToFinish <= 0)
+			{
+				FisnishGame();
 			}
 		}
 		
-		private function returnToMenu():void
+		private function ReturnToMenu():void
 		{
 			_spawnTimer.removeEventListener(TimerEvent.TIMER, OnSpawnTimer);
 			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			
+			_levelTimer.removeEventListener(TimerEvent.TIMER, OnLevelTimer);
+			
+			_player.Destroy();
+			_player = null;
+			_universe = null;
+			
 			var finishView:com.views.FinishView = new com.views.FinishView();
 			(this.parentApplication as Application).addElement(finishView);
 			(this.parentApplication as Application).removeElement(this);
@@ -107,6 +149,7 @@
 				alien.y = -200 + (Math.random() * 100);
 				alien.x = Math.random() * stage.stageWidth;
 				_universe.addChild(alien);
+				alien = null;
 			}
 		}
 		

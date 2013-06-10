@@ -106,21 +106,13 @@ package com.behaviours
 			
 			if (_ship.health <= 0)
 			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
-				stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
-				stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
-				stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
 				_ship.Destroy();
 			}
 		}
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			_ship.Fire(false);
-			
 			var ship:AASpaceShip = currentObject as AASpaceShip;
-			ship.engine.Destroy();
-			ship.Fire(false);
 			if (currentObject.stage && (currentObject.y < currentObject.stage.stageHeight + 100))
 			{
 				var explosion:AABigExplosion = new AABigExplosion(currentObject.universe);
@@ -129,7 +121,10 @@ package com.behaviours
 				explosion.Explode();
 				explosion = null;
 			}
-			ship = null;
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
 		}
 		
 		

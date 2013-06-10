@@ -23,11 +23,21 @@ package com.behaviours
 	 */
 	public class AAAlienShipBehaviour extends Sprite implements AAISpaceObjectBehaviour 
 	{
-		public const TAG:String = "alien";
 		
-		public function AAAlienShipBehaviour() 
+		private static var _instance:AAAlienShipBehaviour;
+		
+		public function AAAlienShipBehaviour(privateClass:PrivateClass) 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
+		}
+		
+		public static function SharedInstance():AAAlienShipBehaviour
+		{
+			if (!_instance)
+			{
+				_instance = new AAAlienShipBehaviour(new PrivateClass());
+			}
+			return _instance;
 		}
 		
 		private function OnAddToStage(e:Event):void 
@@ -93,9 +103,7 @@ package com.behaviours
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			var ship:AASpaceShip = currentObject as AASpaceShip;
-			ship.engine.Destroy();
-			ship.Fire(false);
+			//var ship:AASpaceShip = currentObject as AASpaceShip;
 			
 			var random:int = Math.random() * 1000;
 			if (random > 0 && random <= 200)
@@ -129,10 +137,15 @@ package com.behaviours
 				explosion.Explode();
 				explosion = null;
 			}
-			
-			ship = null;
 		}
 		
 	}
+}
 
+class PrivateClass 
+{
+	public function PrivateClass()
+	{
+		
+	}
 }

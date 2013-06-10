@@ -3,7 +3,6 @@ package com.objects.spaceobjects.ships
 	import com.objects.shipmodules.guns.AAHeavyBlaster;
 	import com.universe.AAUniverse;
 	import com.objects.shipmodules.AAEngine;
-	import com.objects.shipmodules.guns.AAAlienBlaster;
 	import com.behaviours.AAAlienShipBehaviour;
 	
 	/**
@@ -27,13 +26,10 @@ package com.objects.spaceobjects.ships
 			this.addChild(this.engine);
 			
 			this.view = new ShipView();
-			//view.x = -view.width / 2;
-			//view.y = -view.height / 2;
-			//this.addChild(view);
 			
 			this.gun = new AAHeavyBlaster(this);
 			
-			this.behaviour = new AAAlienShipBehaviour();
+			this.behaviour = AAAlienShipBehaviour.SharedInstance();
 		}
 		
 	}
