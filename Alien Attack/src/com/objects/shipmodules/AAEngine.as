@@ -14,15 +14,14 @@ package com.objects.shipmodules
 	 */
 	public class AAEngine extends Sprite
 	{	
+		//properties
 		private var _maxThrustForce : Number = 0;
 		private var _currentThrustForce : Number = 0;
 		
 		private var _maxRotationForce : Number = 0;
 		private var _currentRotationForce : Number = 0;
 		
-		protected var _particleSystem1:AAParticleSystem; 
-		protected var _particleSystem2:AAParticleSystem; 
-		
+		//variables
 		private var _ship:AASpaceShip;
 		
 		public function AAEngine(ship:AASpaceShip, maxThrustForce:Number = 0, maxRotationForce:Number = 0)
@@ -35,13 +34,10 @@ package com.objects.shipmodules
 		}
 		
 //{ EVENT HANDLERS
-
-		
-		
 		private function OnEnterFrame(e:Event):void
 		{
-			_ship.force = new Point(_ship.thrustForceVector.x * _currentThrustForce, _ship.thrustForceVector.y * currentThrustForce);
-			_ship.angularForce = _ship.rotationForceFactor * _currentRotationForce;
+			this._ship.force = new Point(_ship.thrustForceVector.x * _currentThrustForce, _ship.thrustForceVector.y * currentThrustForce);
+			this._ship.angularForce = _ship.rotationForceFactor * _currentRotationForce;
 		}
 //}
 		
@@ -63,13 +59,12 @@ package com.objects.shipmodules
 		
 		public function StopEngine():void
 		{
-			//_particleSystem1.particleVelocity = 0;
-			//_particleSystem2.particleVelocity = 0;
+			this.currentThrustForce = 0;
 		}
 		
 		public function Destroy():void
 		{
-			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 		}
 
 //{ PROPERTIES GETTERS AND SETTERS			

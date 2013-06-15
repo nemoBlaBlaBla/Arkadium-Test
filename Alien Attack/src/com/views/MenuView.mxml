@@ -18,10 +18,14 @@
 		
 		import mx.core.Application;
 		import com.views.GameView;
+		import com.utilities.AAGameParameters;
+		
+		[Bindable]
+		private var _levelName:String;
 		
 		private function init():void
 		{
-			
+			this._levelName = AAGameParameters.SharedInstance().CurrentLevel().levelName;
 		}
 		
 		private function StartGame():void
@@ -29,6 +33,7 @@
 			var gameView:com.views.GameView = new com.views.GameView();
 			(this.parentApplication as Application).addElement(gameView);
 			(this.parentApplication as Application).removeElement(this);
+			gameView = null;
 		}
 		
 		
@@ -36,5 +41,6 @@
 	</fx:Script>
 	
 	<s:Button x="100" y="100" label="START" click="StartGame()" styleName="ButtonStyle"></s:Button>
+	<s:Label x="300" y="100" id="labelLevelName" styleName="HudStyle" text="{this._levelName}"></s:Label>
 	
 </s:Application>

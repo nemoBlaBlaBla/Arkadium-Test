@@ -50,24 +50,23 @@ package com.fx.particlesystem
 		
 		private function onAddingToStage(e:Event):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddingToStage);
 			
-			_particleTimer = AAGlobalTimer.SharedInstance();
-			_particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+			this._particleTimer = AAGlobalTimer.SharedInstance();
+			this._particleTimer.addEventListener(TimerEvent.TIMER, OnTimerTick);
 			
 			this.particleBitmapView.x = -this.particleBitmapView.width / 2;
 			this.particleBitmapView.y = -this.particleBitmapView.height / 2;
 			
-			_numberOfIterations = this.particleLifeTime / _particleTimer.delay;
-			_alphaDelta = (this.particleEndAlpha - this.particleStartAlpha) / _numberOfIterations;
-			_scaleDelta = (this.particleEndScale - this.particleStartScale) / _numberOfIterations;
-			_velocityDelta = (this.particleEndVelocity - this.particleStartVelocity) / _numberOfIterations;
-			_currentVelocity = this.particleStartVelocity;
+			this._numberOfIterations = this.particleLifeTime / _particleTimer.delay;
+			this._alphaDelta = (this.particleEndAlpha - this.particleStartAlpha) / _numberOfIterations;
+			this._scaleDelta = (this.particleEndScale - this.particleStartScale) / _numberOfIterations;
+			this._velocityDelta = (this.particleEndVelocity - this.particleStartVelocity) / _numberOfIterations;
+			this._currentVelocity = this.particleStartVelocity;
 			
 			this.scaleX = this._particleStartScale;
 			this.scaleY = this._particleStartScale;
 			
-			//_particleTimer.start();
 			this.addChild(this.particleBitmapView);
 		}
 		
@@ -81,7 +80,7 @@ package com.fx.particlesystem
 			this.x += (Math.sin((this.rotation * Math.PI) / 180) * _currentVelocity);
 			this.y += (Math.cos((this.rotation * Math.PI) / 180) * _currentVelocity);
 
-			_currentIteration += 1;
+			this._currentIteration += 1;
 			if (_currentIteration >= _numberOfIterations)
 			{
 				this.Destroy();
@@ -90,9 +89,8 @@ package com.fx.particlesystem
 		
 		private function Destroy() : void
 		{
-			_particleTimer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
-			//_particleTimer.stop();
-			_particleTimer = null;
+			this._particleTimer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
+			this._particleTimer = null;
 			if (this.parent)
 			{
 				this.parent.removeChild(this);

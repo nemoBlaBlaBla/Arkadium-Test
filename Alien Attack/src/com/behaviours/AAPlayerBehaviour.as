@@ -20,9 +20,6 @@ package com.behaviours
 	 */
 	public class AAPlayerBehaviour extends Sprite implements AAISpaceObjectBehaviour
 	{
-		
-		public const TAG:String = "player";
-		
 		private var _ship:AASpaceShip = null;
 		
 		public function AAPlayerBehaviour(ship:AASpaceShip)
@@ -34,25 +31,26 @@ package com.behaviours
 		
 		private function OnAddToStage(e:Event):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
-			stage.addEventListener(MouseEvent.MOUSE_UP, OnMouse);
+			this.removeEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
+			this.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+			this.stage.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			this.stage.addEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
+			this.stage.addEventListener(MouseEvent.MOUSE_UP, OnMouse);
 		}
 		
 		private function OnMouse(e:MouseEvent):void 
 		{
 			if (e.type == MouseEvent.MOUSE_DOWN)
 			{
-				_ship.Fire(true);
+				this._ship.Fire(true);
 			}
 			else
 			{
-				_ship.Fire(false);
+				this._ship.Fire(false);
 			}
 		}
 		
+		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectBehaviour */
 		
 		public function Update(currentObject:AASpaceObject) : void
 		{
@@ -62,34 +60,34 @@ package com.behaviours
 
 			if (num < -0.1)
 			{
-				_ship.TurnLeft(true);
+				this._ship.TurnLeft(true);
 			}
 			else if (num > 0.1)
 			{
-				_ship.TurnRight(true);
+				this._ship.TurnRight(true);
 			}
 			else if ((num < 0.05) && (num > -0.05))
 			{
-				_ship.StopTurn();
+				this._ship.StopTurn();
 			}
 			
 			if (stage)
 			{
 				if (_ship.x < 0)
 				{
-					_ship.x = 0;
+					this._ship.x = 0;
 				}
 				else if (_ship.x > stage.stageWidth)
 				{
-					_ship.x = stage.stageWidth;
+					this._ship.x = stage.stageWidth;
 				}
 			}
 			
-			AAGameParameters.sharedInstance().playerPosition.x = _ship.x;
-			AAGameParameters.sharedInstance().playerPosition.y = _ship.y;
+			AAGameParameters.SharedInstance().playerPosition.x = _ship.x;
+			AAGameParameters.SharedInstance().playerPosition.y = _ship.y;
 		}
 		
-		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectBehaviour */
+		
 		
 		public function OnHit(currentObject:AASpaceObject, hittedObject:AASpaceObject):void 
 		{
@@ -99,14 +97,14 @@ package com.behaviours
 			}
 			else if (hittedObject is AABulletAbstract && ((hittedObject as AABulletAbstract).tag == "alien"))
 			{
-				_ship.health -= (hittedObject as AABulletAbstract).damage;
+				this._ship.health -= (hittedObject as AABulletAbstract).damage;
 				
 				(hittedObject as AABulletAbstract).DestroyShell();
 			}
 			
-			if (_ship.health <= 0)
+			if (this._ship.health <= 0)
 			{
-				_ship.Destroy();
+				this._ship.Destroy();
 			}
 		}
 		
@@ -121,10 +119,10 @@ package com.behaviours
 				explosion.Explode();
 				explosion = null;
 			}
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
-			stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
-			stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
+			this.stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+			this.stage.removeEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			this.stage.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouse);
+			this.stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouse);
 		}
 		
 		

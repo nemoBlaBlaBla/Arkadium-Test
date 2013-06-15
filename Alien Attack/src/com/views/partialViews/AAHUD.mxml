@@ -50,7 +50,7 @@
 			this.alpha = 1 - Math.random()*0.2;
 			this._glowFactor = 3 + this.alpha;
 			
-			this.fpsValue = AAGameParameters.sharedInstance().fpsCounter.fps;
+			this.fpsValue = AAGameParameters.SharedInstance().fpsCounter.fps;
 		}
 		]]>
 	</fx:Script>

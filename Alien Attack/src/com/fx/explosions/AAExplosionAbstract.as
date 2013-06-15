@@ -10,8 +10,11 @@ package com.fx.explosions
 	 */
 	public class AAExplosionAbstract extends Sprite 
 	{
-		protected var _universe:AAUniverse;
+		//properties
 		private var _explosionSound:Sound;
+		
+		//private fields
+		protected var _universe:AAUniverse;
 		
 		public function AAExplosionAbstract(universe:AAUniverse) 
 		{
@@ -23,7 +26,7 @@ package com.fx.explosions
 		{
 			if (this.explosionSound)
 			{
-				explosionSound.play();
+				this.explosionSound.play();
 			}
 		}
 		

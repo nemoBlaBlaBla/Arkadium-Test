@@ -1,5 +1,6 @@
 package com.utilities
 {
+	import com.levels.AALevel;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.net.URLLoader;
@@ -12,54 +13,105 @@ package com.utilities
 	 */
 	public class AAGameParameters
 	{
-		private static var _sharedInstance:AAGameParameters;
+		private static var _SharedInstance:AAGameParameters;
 		
+		// properties
+		private var _currentLevelIndex:int;
+		private var _fpsCounter:AAFPSCounter;
+		private var _gameComplete:Boolean = false;
+		private var _levels:Vector.<AALevel>;
+		private var _xmlLoader:URLLoader;
 		private var _playerScore:Number = 0;
 		private var _playerPosition:Point = new Point();
 		
-		private var _fpsCounter:AAFPSCounter;
-		
 		public function AAGameParameters(privateClass:PrivateClass)
 		{
-			_fpsCounter = new AAFPSCounter();
+			this._fpsCounter = new AAFPSCounter();
 			
-			LoadXMLConfig();
+			this.LoadXMLConfig();
 		}
 		
-		public static function sharedInstance():AAGameParameters
+		public static function SharedInstance():AAGameParameters
 		{
-			if (!_sharedInstance)
+			if (!_SharedInstance)
 			{
-				_sharedInstance = new AAGameParameters(new PrivateClass());
+				_SharedInstance = new AAGameParameters(new PrivateClass());
 			}
-			return _sharedInstance;
+			return _SharedInstance;
 		}
 		
 		public function WipeGameParameters():void
 		{
-			playerScore = 0;
+			this.playerScore = 0;
 		}
 		
+		public function LoadNextLevel():void
+		{
+			if (this.currentLevelIndex == this.levels.length - 1)
+			{
+				this._gameComplete = true;
+				this.currentLevelIndex = 0;
+			}
+			else
+			{
+				this._gameComplete = false;
+				this.currentLevelIndex++;
+			}
+		}
 		
+		public function CurrentLevel():AALevel
+		{
+			var currentLevel:AALevel;
+			try
+			{
+				currentLevel = this.levels[currentLevelIndex];
+			}
+			catch (err:Error)
+			{
+				trace(err);
+				currentLevel = new AALevel();
+				currentLevel.DefaulParameters();
+			}
+			return currentLevel;
+		}
 		
-		//;alsjdfla;jfa;slf
+		//loading xml levels
 		private function LoadXMLConfig():void
 		{	
-			var xmlLoader:URLLoader = new URLLoader();
-			xmlLoader.addEventListener(Event.COMPLETE, showXML);
-			xmlLoader.load(new URLRequest("GameConfig.xml"));
+			this._xmlLoader = new URLLoader();
+			this._xmlLoader.addEventListener(Event.COMPLETE, OnLoading);
+			this._xmlLoader.load(new URLRequest("GameConfig.xml"));
 		}
 		
-		private function showXML(e:Event):void 
+		
+		private function OnLoading(e:Event):void 
 		{
-			XML.ignoreWhitespace = true;
-			var levels:XML = new XML(e.target.data);
-			trace(levels.children());
+			this._xmlLoader.removeEventListener(Event.COMPLETE, OnLoading);
 			
-			//for each(var level:XML in levels)
-			//{
-				//trace(level.children());
-			//}
+			XML.ignoreWhitespace = true;
+			var xmlLevels:XML = new XML(e.target.data);
+			
+			this.levels = new Vector.<AALevel>();
+			for each(var xmlLevel:XML in xmlLevels.children())
+			{
+				this.levels.push(ParseLevelFromXMLLevel(xmlLevel));
+			}
+			
+			if (this.levels.length > 0)
+			{
+				this.currentLevelIndex = 0;
+			}
+		}
+		
+		private function ParseLevelFromXMLLevel(xmlLevel:XML):AALevel
+		{
+			var level:AALevel = new AALevel();
+			level.levelName = xmlLevel.name;
+			level.timeToFinishInSeconds = xmlLevel.time_to_finish;
+			level.enemySpawnDelayInSeconds = xmlLevel.enemy_spawn_delay;
+			level.playerArmor = xmlLevel.player_armor;
+			
+			return level;
 		}
 		
 		
@@ -87,6 +139,39 @@ package com.utilities
 		public function get fpsCounter():AAFPSCounter 
 		{
 			return _fpsCounter;
+		}
+		
+		public function get levels():Vector.<AALevel> 
+		{
+			return _levels;
+		}
+		
+		public function set levels(value:Vector.<AALevel>):void 
+		{
+			_levels = value;
+		}
+		
+		public function get currentLevelIndex():uint 
+		{
+			return _currentLevelIndex;
+		}
+		
+		public function set currentLevelIndex(value:uint):void 
+		{
+			if (_levels.length > 0 && _levels.length >= value + 1)
+			{
+				_currentLevelIndex = value;
+			}
+		}
+		
+		public function get xmlLoader():URLLoader 
+		{
+			return _xmlLoader;
+		}
+		
+		public function get gameComplete():Boolean 
+		{
+			return _gameComplete;
 		}
 //}
 	}

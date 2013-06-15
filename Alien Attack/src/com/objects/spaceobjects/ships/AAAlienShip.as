@@ -28,6 +28,7 @@ package com.objects.spaceobjects.ships
 			this.view = new ShipView();
 			
 			this.gun = new AAAlienBlaster(this);
+			this.pointsBounty = 30;
 			
 			this.behaviour = AAAlienShipBehaviour.SharedInstance();
 		}

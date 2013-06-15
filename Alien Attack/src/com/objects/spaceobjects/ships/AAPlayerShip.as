@@ -22,10 +22,6 @@ package com.objects.spaceobjects.ships
 			super(universe);
 			this.view = new ShipView();
 			
-			//this.view.x = -view.width / 2;
-			//this.view.y = -view.height / 2;
-			//this.addChild(this.view);
-			
 			this.mass = 1000;
 			this.resistanceFactor = 50;
 			this.angularResistanceFactor = 300;

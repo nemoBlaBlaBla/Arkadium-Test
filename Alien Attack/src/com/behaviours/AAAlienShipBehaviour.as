@@ -8,14 +8,13 @@ package com.behaviours
 	import com.objects.spaceobjects.bonuses.AABonusBlaster;
 	import com.objects.spaceobjects.bonuses.AABonusHeavyBlaster;
 	import com.objects.spaceobjects.bullets.AABulletAbstract;
-	import com.objects.spaceobjects.bullets.AAGunBullet;
 	import com.objects.spaceobjects.ships.AAAlienShip;
 	import com.objects.spaceobjects.ships.AAPlayerShip;
 	import com.objects.spaceobjects.ships.AASpaceShip;
+	import com.utilities.AAGameParameters;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
-	import com.utilities.AAGameParameters;
 	
 	/**
 	 * ...
@@ -23,12 +22,11 @@ package com.behaviours
 	 */
 	public class AAAlienShipBehaviour extends Sprite implements AAISpaceObjectBehaviour 
 	{
-		
 		private static var _instance:AAAlienShipBehaviour;
 		
 		public function AAAlienShipBehaviour(privateClass:PrivateClass) 
 		{
-			addEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
+			
 		}
 		
 		public static function SharedInstance():AAAlienShipBehaviour
@@ -38,11 +36,6 @@ package com.behaviours
 				_instance = new AAAlienShipBehaviour(new PrivateClass());
 			}
 			return _instance;
-		}
-		
-		private function OnAddToStage(e:Event):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, OnAddToStage);
 		}
 		
 		/* INTERFACE com.objects.spaceobjects.AAISpaceObjectBehaviour */
@@ -68,7 +61,7 @@ package com.behaviours
 				ship.Destroy();
 			}
 			
-			var playerPos:Point = AAGameParameters.sharedInstance().playerPosition;
+			var playerPos:Point = AAGameParameters.SharedInstance().playerPosition;
 			if (Math.abs(playerPos.x - ship.x) < 50 && (playerPos.y > ship.y))
 			{
 				ship.Fire(true);
@@ -90,21 +83,20 @@ package com.behaviours
 			}
 			else if (hittedObject is AAPlayerShip) 
 			{
-				AAGameParameters.sharedInstance().playerScore -= 100;
+				AAGameParameters.SharedInstance().playerScore -= 100;
 				ship.health -= 100;
+				(hittedObject as AAPlayerShip).health -= 25;
 			}
 			
 			if (ship.health <= 0)
 			{
-				AAGameParameters.sharedInstance().playerScore += 30;
+				AAGameParameters.SharedInstance().playerScore += ship.pointsBounty;
 				ship.Destroy();
 			}
 		}
 		
 		public function OnDestroy(currentObject:AASpaceObject):void 
 		{
-			//var ship:AASpaceShip = currentObject as AASpaceShip;
-			
 			var random:int = Math.random() * 1000;
 			if (random > 0 && random <= 200)
 			{
@@ -138,7 +130,6 @@ package com.behaviours
 				explosion = null;
 			}
 		}
-		
 	}
 }
 

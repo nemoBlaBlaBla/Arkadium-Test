@@ -94,8 +94,13 @@ package com.fx.particlesystem
 				p.y = this.y + (_yRange / 2) - _yRange * Math.random();
 			
 				p.rotation = this.emitFromAngle + (this.emitFromAngle - this.emitToAngle) * Math.random();
-
-				parent.addChild(p);
+				
+				if (parent)
+				{
+					parent.addChild(p);
+				}
+				
+				p = null;
 			}
 		}
 		

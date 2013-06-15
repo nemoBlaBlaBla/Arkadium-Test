@@ -13,13 +13,15 @@ package com.objects.shipmodules.guns
 	 */
 	public class AAGunAbstract 
 	{
-		protected var _fireRate : Number = 5;
-		private var _ship : AASpaceShip;
-		protected var _spreading : Number = 5;
-		protected var _shellType:Class = AABulletAbstract;
+		//properties
 		private var _shotSound:Sound;
 		
+		//variables
 		private var _fireTimer:Timer;
+		private var _ship : AASpaceShip;
+		protected var _fireRate : Number = 5;
+		protected var _spreading : Number = 5;
+		protected var _shellType:Class = AABulletAbstract;
 		
 		public function AAGunAbstract(ship : AASpaceShip) 
 		{
@@ -35,8 +37,8 @@ package com.objects.shipmodules.guns
 		{
 			if (!_fireTimer)
 			{
-				_fireTimer = new Timer(1000 / _fireRate, 0);
-				_fireTimer.addEventListener(TimerEvent.TIMER, OnTimer);
+				this._fireTimer = new Timer(1000 / _fireRate, 0);
+				this._fireTimer.addEventListener(TimerEvent.TIMER, OnTimer);
 			}
 			if (start)
 			{
@@ -54,30 +56,35 @@ package com.objects.shipmodules.guns
 			{
 				this.shotSound.play();
 			}
-			var shell:AABulletAbstract = new _shellType(_ship.universe, _ship.rotation + ((Math.random() * _spreading) - _spreading / 2));
+			var bullet:AABulletAbstract = new _shellType(_ship.universe, _ship.rotation + ((Math.random() * _spreading) - _spreading / 2));
 			if (_ship.behaviour is AAPlayerBehaviour)
 			{
-				shell.tag = "player";
+				bullet.tag = "player";
 			}
 			else if (_ship.behaviour is AAAlienShipBehaviour)
 			{
-				shell.tag = "alien";
+				bullet.tag = "alien";
 			}
 			
-			shell.x = _ship.x - (Math.sin((_ship.rotation * Math.PI) / 180) * - 70);
-			shell.y = _ship.y + (Math.cos((_ship.rotation * Math.PI) / 180) * - 70);
+			bullet.x = _ship.x - (Math.sin((_ship.rotation * Math.PI) / 180) * - 70);
+			bullet.y = _ship.y + (Math.cos((_ship.rotation * Math.PI) / 180) * - 70);
 			
-			_ship.universe.addChild(shell);
+			this._ship.universe.addChild(bullet);
+			bullet = null;
+			
+			trace("shot!!!");
 		}
 		
 		public function Destroy():void
 		{
-			_ship = null;
-			_fireTimer.stop();
-			_fireTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
-			_fireTimer = null;
+			this._ship = null;
+			this._fireTimer.stop();
+			this._fireTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
+			this._fireTimer = null;
 		}
 		
+		
+//{ GETTERS AND SETTERS
 		public function get shotSound():Sound 
 		{
 			return _shotSound;
@@ -87,5 +94,6 @@ package com.objects.shipmodules.guns
 		{
 			_shotSound = value;
 		}
+//}
 	}
 }

@@ -43,35 +43,54 @@
 		private function init():void 
 		{
 			var universeContainer:UIComponent = new UIComponent();			
-			_universe = new AATestUniverse();
+			_universe = new AAUniverse();
+			
 			
 			_player = new AAPlayerShip(_universe);
 			_player.x = stage.stageWidth / 2;
 			_player.y = stage.stageHeight - 70;
+			
 			
 			_universe.addChild(_player);
 			
 			universeContainer.addChild(_universe);
 			addElementAt(universeContainer, 0);
 			
-			AAGameParameters.sharedInstance().WipeGameParameters();
-			
 			_spawnTimer = new Timer(_spawnDelay, 0);
 			com.views.GameView.points = 0;
 			
+			this.addEventListener(Event.ADDED, OnAdding);
+		}
+		
+		private function OnAdding(e:Event):void 
+		{
+			this.removeEventListener(Event.ADDED, OnAdding);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, OnRemoving);
+			
+			this._player.health = AAGameParameters.SharedInstance().CurrentLevel().playerArmor;
+			this._timeToFinish = AAGameParameters.SharedInstance().CurrentLevel().timeToFinishInSeconds;
+			this._spawnDelay = AAGameParameters.SharedInstance().CurrentLevel().enemySpawnDelayInSeconds * 1000;
 			
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			_spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
-			_levelTimer.addEventListener(TimerEvent.TIMER, OnLevelTimer);
+			this._spawnTimer.addEventListener(TimerEvent.TIMER, OnSpawnTimer);
+			this._levelTimer.addEventListener(TimerEvent.TIMER, OnLevelTimer);
 			
 			StartGame();
-			//Mouse.hide();
+		}
+		
+		private function OnRemoving(e:Event):void 
+		{
+			removeEventListener(Event.REMOVED_FROM_STAGE, OnRemoving);
+			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			
+			StopGame();
+			_spawnTimer.removeEventListener(TimerEvent.TIMER, OnSpawnTimer);
+			_levelTimer.removeEventListener(TimerEvent.TIMER, OnLevelTimer);
 		}
 		
 		private function OnLevelTimer(e:TimerEvent):void 
 		{
 			_timeToFinish -= _levelTimer.delay / 1000;
-			//trace(_timeToFinish.toString());
 		}
 		
 		public function StartGame():void
@@ -84,11 +103,14 @@
 		{
 			_spawnTimer.stop();
 			_levelTimer.stop();
+			
+			trace("stop!!!");
 		}
 		
 		public function FisnishGame():void
 		{
 			StopGame();
+			AAGameParameters.SharedInstance().LoadNextLevel();
 			ReturnToMenu();
 		}
 		
@@ -101,7 +123,7 @@
 		private function OnEnterFrame(e:Event):void 
 		{
 			this.hud.armorValue = _player.health;
-			this.hud.pointsValue = AAGameParameters.sharedInstance().playerScore;
+			this.hud.pointsValue = AAGameParameters.SharedInstance().playerScore;
 			this.hud.timeToFinishValue = this._timeToFinish;
 			
 			if (_player.health <= 0)
@@ -115,12 +137,7 @@
 		}
 		
 		private function ReturnToMenu():void
-		{
-			_spawnTimer.removeEventListener(TimerEvent.TIMER, OnSpawnTimer);
-			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			
-			_levelTimer.removeEventListener(TimerEvent.TIMER, OnLevelTimer);
-			
+		{			
 			_player.Destroy();
 			_player = null;
 			_universe = null;
@@ -136,7 +153,7 @@
 			for (var i:int = 0; i < spawnCount; i++)
 			{
 				var alien:AASpaceShip;
-				if (Math.random() * (AAGameParameters.sharedInstance().playerScore) < 1000)
+				if (Math.random() * (AAGameParameters.SharedInstance().playerScore) < 1000)
 				{
 					alien = new AAAlienShip(_universe);
 				}

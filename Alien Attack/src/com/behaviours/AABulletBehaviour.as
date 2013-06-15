@@ -55,9 +55,7 @@ package com.behaviours
 			}
 			currentObject = null;
 		}
-		
 	}
-
 }
 
 class PrivateClass 

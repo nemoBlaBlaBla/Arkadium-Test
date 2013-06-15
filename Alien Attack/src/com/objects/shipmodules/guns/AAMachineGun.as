@@ -19,9 +19,9 @@ package com.objects.shipmodules.guns
 			super(ship);
 			
 			this.shotSound = new SoundClass() as Sound;
-			_spreading = 4;
-			_fireRate = 8;
-			_shellType = AAGunBullet;
+			this._spreading = 4;
+			this._fireRate = 8;
+			this._shellType = AAGunBullet;
 		}
 		
 	}

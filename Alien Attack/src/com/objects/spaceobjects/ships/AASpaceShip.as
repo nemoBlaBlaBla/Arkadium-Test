@@ -23,9 +23,10 @@ package com.objects.spaceobjects.ships
 		
 		private var _engine:AAEngine;
 		private var _gun:AAGunAbstract;
-		//private var _controller:Controller;
 		
 		private var _health:Number = 100;
+		
+		protected var _pointsBounty:uint = 0;
 		
 		public function AASpaceShip(universe:AAUniverse) 
 		{
@@ -42,19 +43,13 @@ package com.objects.spaceobjects.ships
 		
 		override public function Destroy():void
 		{
-			
-			
-			this.Fire(false);
-			this.gun.Destroy();
-			//this.gun = null;
+			this._gun.Fire(false);
+			this._gun.Destroy();
 			
 			this.engine.StopEngine();
 			this.engine.Destroy();
-			//this.engine = null;
 			
 			super.Destroy();
-			
-			this.behaviour = null;
 		}
 		
 //{ MOVEMENT METHODS
@@ -164,24 +159,24 @@ package com.objects.spaceobjects.ships
 		
 		public function set thrustForceVector(value:Point):void 
 		{	
-			_thrustForceVector = value;
+			this._thrustForceVector = value;
 			
-			if (_thrustForceVector.x > 1)
+			if (this._thrustForceVector.x > 1)
 			{
-				_thrustForceVector.x = 1;
+				this._thrustForceVector.x = 1;
 			}
-			else if (_thrustForceVector.x < -1)
+			else if (this._thrustForceVector.x < -1)
 			{
-				_thrustForceVector.x = -1;
+				this._thrustForceVector.x = -1;
 			}
 			
-			if (_thrustForceVector.y > 1)
+			if (this._thrustForceVector.y > 1)
 			{
-				_thrustForceVector.y = 1;
+				this._thrustForceVector.y = 1;
 			}
-			else if (_thrustForceVector.y < -1)
+			else if (this._thrustForceVector.y < -1)
 			{
-				_thrustForceVector.y = -1;
+				this._thrustForceVector.y = -1;
 			}
 		}
 		
@@ -231,6 +226,16 @@ package com.objects.spaceobjects.ships
 		public function set health(value:Number):void 
 		{
 			_health = value;
+		}
+		
+		public function get pointsBounty():uint 
+		{
+			return _pointsBounty;
+		}
+		
+		public function set pointsBounty(value:uint):void 
+		{
+			_pointsBounty = value;
 		}
 //}
 	}

@@ -21,9 +21,9 @@ package com.objects.shipmodules.guns
 			
 			this.shotSound = new SoundClass() as Sound;
 			
-			_spreading = 5;
-			_fireRate = 4;
-			_shellType = AABlasterShell;
+			this._spreading = 5;
+			this._fireRate = 4;
+			this._shellType = AABlasterShell;
 		}
 		
 	}

@@ -13,36 +13,35 @@ package com.utilities
 		private var _timer:Timer = new Timer(1000);
 		private var _now:uint = 0;
 		private var _last:uint = 0;
+		
+		//property
 		private var _fps:uint = 0;
 		
 		public function AAFPSCounter()
 		{
-			_timer.start();
-			_timer.addEventListener(TimerEvent.TIMER, onTimerTick);
-			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			this._timer.start();
+			this._timer.addEventListener(TimerEvent.TIMER, onTimerTick);
+			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 		}
 		
+//{ EVENT HANDLERS
 		private function OnEnterFrame(e:Event):void 
 		{
-			_now++;
+			this._now++;
 		}
 		
 		private function onTimerTick(e:TimerEvent):void
 		{
-			_fps = (_now - _last);
-			_last = _now;
+			this._fps = (_now - _last);
+			this._last = _now;
 		}
-		
+//}
+
 		
 //{ GETTERS AND SETTERS
 		public function get fps():uint 
 		{
 			return _fps;
-		}
-		
-		public function set fps(value:uint):void 
-		{
-			_fps = value;
 		}
 //}
 	}

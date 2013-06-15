@@ -19,17 +19,26 @@
 		<![CDATA[
 		
 		import flash.display.Sprite;
+		import flash.events.Event;
 		import flash.events.MouseEvent;
 		import mx.controls.TextInput;
 		import mx.core.UIComponent;
 		import mx.states.AddChild;
 		import com.views.GameView;
 		import com.views.MenuView;
+		import com.utilities.AAGameParameters;
 		
 		public var myText:String = "Mytext";
 		
 		private function init() : void
 		{			
+			AAGameParameters.SharedInstance();
+			AAGameParameters.SharedInstance().xmlLoader.addEventListener(Event.COMPLETE, OnLoadingComplete);
+		}
+		
+		private function OnLoadingComplete(e:Event):void 
+		{
+			AAGameParameters.SharedInstance().xmlLoader.removeEventListener(Event.COMPLETE, OnLoadingComplete);
 			var menuView:com.views.MenuView = new com.views.MenuView();
 			this.addElement(menuView);
 		}

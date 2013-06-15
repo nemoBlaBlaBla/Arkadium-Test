@@ -34,30 +34,33 @@ package com.objects.spaceobjects.bullets
 			this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 		}
 		
+//{ EVENT HANDLERS
 		private function OnAddingToStage(e:Event):void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			this.removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 			
 			this.mass = 0;
 			this.velocity = new Point(_startVelocity * Math.sin((this.rotation * Math.PI) / 180), -_startVelocity * Math.cos((this.rotation * Math.PI) / 180));
 			
-			_lifeTimer = AAGlobalTimer.SharedInstance();
-			_lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
+			this._lifeTimer = AAGlobalTimer.SharedInstance();
+			this._lifeTimer.addEventListener(TimerEvent.TIMER, OnTimer);
 		}
 		
 		private function OnTimer(e:TimerEvent):void 
 		{			
 			this._lifeTimeInMS -= this._lifeTimer.delay;
-			if (_lifeTimeInMS < 0)
+			if (this._lifeTimeInMS < 0)
 			{
 				this.DestroyShell();
 			}
 		}
-		
+//}
+
+
 		public function DestroyShell() : void
 		{
-			_lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
-			_lifeTimer = null;
+			this._lifeTimer.removeEventListener(TimerEvent.TIMER, OnTimer);
+			this._lifeTimer = null;
 			this.Destroy();
 		}
 		

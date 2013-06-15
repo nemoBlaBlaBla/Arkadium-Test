@@ -38,9 +38,12 @@ package com.objects.spaceobjects
 			this.addEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
 		}
 		
+
+//{ EVENT HANDLERS
 		private function OnAddingToStage(e:Event):void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			this.removeEventListener(Event.ADDED_TO_STAGE, OnAddingToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, OnRemovingFromStage);
 			this.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			if (this.view)
 			{
@@ -50,6 +53,38 @@ package com.objects.spaceobjects
 			}
 		}
 		
+		private function OnRemovingFromStage(e:Event):void 
+		{
+			this.removeEventListener(Event.REMOVED_FROM_STAGE, OnRemovingFromStage);
+			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+		}
+		
+		private function OnEnterFrame(e:Event):void 
+		{
+			if (this.behaviour)
+			{
+				this.behaviour.Update(this);
+			}
+			
+			this.PositionUpdate();
+			
+			for (var i:int = 0; i < universe.numChildren; i++) 
+			{
+				if(this.parent)
+				{
+					if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
+					{
+						if (this.behaviour)
+						{
+							this.behaviour.OnHit(this, universe.getChildAt(i) as AASpaceObject);
+						}
+					}
+				}
+			}
+		}
+//}
+
+
 		public function Destroy() : void
 		{
 			if (behaviour)
@@ -63,39 +98,8 @@ package com.objects.spaceobjects
 				parent.removeChild(this);
 			}
 			
-			this.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			this._behaviour = null;
 			view.bitmapData.dispose();
-			view = null;
-		}
-		
-		private function OnEnterFrame(e:Event):void 
-		{
-			if (behaviour)
-			{
-				behaviour.Update(this);
-			}
-			
-			this.PositionUpdate();
-			
-			for (var i:int = 0; i < universe.numChildren; i++) 
-			{
-				if(parent)
-				{
-					if (hitTestObject(universe.getChildAt(i)) && (universe.getChildAt(i) is AASpaceObject) && i != universe.getChildIndex(this))
-					{
-						if (behaviour)
-						{
-							behaviour.OnHit(this, universe.getChildAt(i) as AASpaceObject);
-						}
-					}
-				}
-				//catch (err:Error)
-				//{
-					//trace(err.name);
-					//trace(err.message);
-					//trace(err.getStackTrace());
-				//}
-			}
 		}
 		
 		private function UpdateValues():void
@@ -119,12 +123,6 @@ package com.objects.spaceobjects
 			}
 			this.x += this.velocity.x;
 			this.y += this.velocity.y;
-		}
-		
-		public function DrawBounds() : void
-		{
-			this.graphics.lineStyle(2, 0x00FF00, 1);
-			this.graphics.drawRect(view.x, view.y, view.width, view.height);
 		}
 		
 //{ PROPERTIES GETTERS AND SETTERS		

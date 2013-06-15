@@ -21,9 +21,16 @@
 		[Bindable]
 		private var _playerScore:int = 0;
 		
+		[Bindable]
+		private var _message:String;
+		
 		private function init():void
 		{
-			_playerScore = AAGameParameters.sharedInstance().playerScore;
+			_playerScore = AAGameParameters.SharedInstance().playerScore;
+			if (AAGameParameters.SharedInstance().gameComplete)
+			{
+				_message = "You completed the Game \n press \"Back to Menu\" to start Game again.";
+			}
 		}
 		
 		private function BackToMenu():void
@@ -38,6 +45,8 @@
 	
 	<s:Label id="labelScore" x="100" y="100" text="Your Score:" styleName="HudStyle"></s:Label>
 	<s:Label id="labelScoreValue" x="{this.labelScore.x + this.labelScore.width + 10}" y="100" text="{this._playerScore}" styleName="HudStyle"></s:Label>
+	
+	<s:Label id="labelMessage" x="100" y="300" text="{this._message}" styleName="HudStyle"></s:Label>
 	
 	<s:Button id="buttonBackToMenu" label="Back to Menu" x="100" y="{this.stage.stageHeight - 100}" click="BackToMenu()" styleName="ButtonStyle"></s:Button>
 </s:Application>
